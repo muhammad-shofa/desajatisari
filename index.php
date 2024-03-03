@@ -1,7 +1,6 @@
 <?php
 
 include "service/config.php";
-// include "service/status_login.php";
 
 // $session_login = ;
 
@@ -21,7 +20,7 @@ include "service/config.php";
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
   <title>Desa Jatisari</title>
 </head>
 
@@ -267,7 +266,8 @@ include "service/config.php";
         <!-- card start -->
         <div class="container container-fluid d-flex flex-wrap justify-content-center">
           <div class="card m-2 shadow-sm" style="width: 12rem" data-aos="fade-up" data-aos-duration="500">
-            <img src="./ikon/graduation-cap-solid.svg" class="card-img-top p-5" alt="" width="180px" height="180px" />
+            <img src="./assets/icon/graduation-cap-solid.svg" class="card-img-top p-5" alt="" width="180px"
+              height="180px" />
             <div class="card-body text-center">
               <h5 class="card-title">Pendidikan</h5>
               <p class="card-text">
@@ -277,7 +277,7 @@ include "service/config.php";
             </div>
           </div>
           <div class="card m-2 shadow-sm" style="width: 12rem" data-aos="fade-up" data-aos-duration="550">
-            <img src="./ikon/stethoscope-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
+            <img src="./assets/icon/stethoscope-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
               height="180px" />
             <div class="card-body text-center">
               <h5 class="card-title">Kesehatan</h5>
@@ -289,7 +289,7 @@ include "service/config.php";
             </div>
           </div>
           <div class="card m-2 shadow-sm" style="width: 12rem" data-aos="fade-up" data-aos-duration="600">
-            <img src="./ikon/bag-shopping-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
+            <img src="./assets/icon/bag-shopping-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
               height="180px" />
             <div class="card-body text-center">
               <h5 class="card-title">UMKM</h5>
@@ -297,7 +297,7 @@ include "service/config.php";
             </div>
           </div>
           <div class="card m-2 shadow-sm" style="width: 12rem" data-aos="fade-up" data-aos-duration="650">
-            <img src="./ikon/book-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
+            <img src="./assets/icon/book-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
               height="180px" />
             <div class="card-body text-center">
               <h5 class="card-title">Perpustakaan Umum</h5>
@@ -305,7 +305,7 @@ include "service/config.php";
             </div>
           </div>
           <div class="card m-2 shadow-sm" style="width: 12rem" data-aos="fade-up" data-aos-duration="700">
-            <img src="./ikon/mosque-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
+            <img src="./assets/icon/mosque-solid.svg" class="card-img-top p-5 img-tumbnail" alt="" width="180px"
               height="180px" />
             <div class="card-body text-center">
               <h5 class="card-title">Tempat Beribadah</h5>

@@ -55,8 +55,12 @@ if (isset($_POST["logout"])) {
         }
 
         .profile-img img {
-            width: 70%;
-            height: 100%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid #ffc107;
+            /* width: 70%;
+            height: 50%; */
         }
 
         .profile-img .file {
@@ -222,10 +226,10 @@ if (isset($_POST["logout"])) {
                     <div class="col-md-4">
                         <div class="profile-img">
                             <img src="../img/default.png" alt="" />
-                            <div class="file btn btn-lg btn-primary ">
+                            <!-- <div class="file btn btn-lg btn-primary ">
                                 Change Photo
                                 <input type="file" name="file" />
-                            </div>
+                            </div> -->
                         </div>
                         <!-- tes alert -->
                         <!-- <button type="button" class="btn btn-warning swalDefaultWarning1">
@@ -233,7 +237,7 @@ if (isset($_POST["logout"])) {
                                 </button> -->
                     </div>
                     <div class="col-md-6">
-                        <div class="profile-head">
+                        <div class="profile-head pt-5">
                             <h5>
                                 <?= $data_user['username'] ?>
                             </h5>
@@ -241,25 +245,31 @@ if (isset($_POST["logout"])) {
                                 <?= $data_user['role'] ?>
                             </h6>
                             <br>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <ul class="nav nav-tabs " id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                        aria-controls="home" aria-selected="true">About</a>
+                                    <a class="nav-link active" id="data-diri-tab" data-toggle="tab" href="#data-diri"
+                                        role="tab" aria-controls="data-diri" aria-selected="true">Data Diri</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pencapaian-tab" data-toggle="tab" href="#pencapaian"
+                                        role="tab" aria-controls="pencapaian" aria-selected="true">Pencapaian</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <!-- <div class="col-md-2">
+                    <div class="col-md-2">
                         <input type="button" class="profile-edit-btn" name="btn-edit-profile" data-toggle="modal"
                             data-target="#modal-edit-profile" value="Edit Profile" />
-                    </div> -->
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                     </div>
                     <div class="col-md-8">
                         <div class="tab-content profile-tab" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <!-- data diri -->
+                            <div class="tab-pane fade show active" id="data-diri" role="tabpanel"
+                                aria-labelledby="data-diri-tab">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Username</label>
@@ -285,7 +295,9 @@ if (isset($_POST["logout"])) {
                                         <label>Email</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <?= $data_user['email'] ?>
+                                        <p>
+                                            <?= $data_user['email'] ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -293,7 +305,42 @@ if (isset($_POST["logout"])) {
                                         <label>Role</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <?= $_SESSION['role'] ?>
+                                        <p>
+                                            <?= $_SESSION['role'] ?>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                        <form action="profile.php" method="POST">
+                                            <button class="btn btn-danger" name="logout">Logout</button>
+                                        </form>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- pencapaian -->
+                            <div class="tab-pane fade show" id="pencapaian" role="tabpanel"
+                                aria-labelledby="pencapaian-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>anjay</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <?= $data_user['username'] ?>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <?= $data_user['nama_lengkap'] ?>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -307,9 +354,7 @@ if (isset($_POST["logout"])) {
 
 
         <div class="" style="padding-top: 300px;">
-            <form action="profile.php" method="POST">
-                <button class="btn btn-danger" name="logout">Logout</button>
-            </form>
+
         </div>
     </div>
 

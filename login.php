@@ -20,7 +20,11 @@ if (isset($_POST['masuk'])) {
         $_SESSION["username"] = $data_user["username"];
         $_SESSION["role"] = $data_user["role"];
         $_SESSION["is_login"] = true;
-        header("location: pages/profile.php");
+        if ($_SESSION["role"] === "Admin") {
+            header("location: pages/dashboard.php");
+        } else {
+            header("location: pages/profile.php");
+        }
     } else {
         $message_login = "Pastikan anda memasukkan username dan password yang benar!";
     }
