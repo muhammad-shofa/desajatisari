@@ -5,13 +5,20 @@ session_start();
 
 // check login
 if ($_SESSION["is_login"] == false) {
-    header("location: ../index.php");
+    header("location: index.php");
 }
 
 // get data user
 $sql_user = "SELECT * FROM users WHERE user_id={$_SESSION['user_id']}";
 $result_user = $db->query($sql_user);
 $data_user = $result_user->fetch_assoc();
+
+$user_id = $_SESSION['user_id'];
+
+// get pesan user
+$sql_pesan = "SELECT * FROM pengaduan WHERE pengirim={$_SESSION['username']}";
+$result_pesan = $db->query($sql_pesan);
+$data_pesan = $result_pesan->fetch_assoc();
 
 $db->close();
 
@@ -164,57 +171,7 @@ if (isset($_POST["logout"])) {
     <!-- <div class="page-wrapper"> -->
     <div class="main-container">
         <!-- nav start -->
-        <nav class="navbar fixed-top navbar-expand-lg border-bottom shadow-sm bg-body-tertiary">
-            <div class="container-fluid py-2" id="nav-container">
-                <span>
-                    <a class="navbar-brand fs-3" href="../index.php"><b>DesaJatisari</b></a>
-                </span>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
-                    <div></div>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active-link" aria-current="page" href="../index.php">Beranda</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Profil Desa
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Visi & Misi</a></li>
-                                <li><a class="dropdown-item" href="#">Sejarah Desa</a></li>
-                                <li><a class="dropdown-item" href="#">Aset Desa</a></li>
-                                <li><a class="dropdown-item" href="#">Peta Desa</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Berita</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Galeri</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Kontak</a>
-                        </li>
-                    </ul>
-                    <?php if ($_SESSION["is_login"]) { ?>
-                        <a href="profile.php">
-                            <img class="img-tumbnail rounded-5" width="50px" height="50px" src="../img/default.png" alt="">
-                        </a>
-                    <?php } else { ?>
-                        <div>
-                            <a href="login.php" class="btn btn-primary">Masuk</a>
-                            <a href="register.php" class="btn btn-outline-primary">Daftar</a>
-                        </div>
-                    <?php } ?>
-                </div>
-            </div>
-        </nav>
+        <?php include "../layout/navbar.php" ?>
         <!-- nav end -->
         <!-- content -->
         <!-- Container starts -->
@@ -225,7 +182,7 @@ if (isset($_POST["logout"])) {
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
-                            <img src="../img/default.png" alt="" />
+                            <img src="../assets/img/default.png" alt="" />
                             <!-- <div class="file btn btn-lg btn-primary ">
                                 Change Photo
                                 <input type="file" name="file" />
@@ -245,117 +202,154 @@ if (isset($_POST["logout"])) {
                                 <?= $data_user['role'] ?>
                             </h6>
                             <br>
-                            <ul class="nav nav-tabs " id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="data-diri-tab" data-toggle="tab" href="#data-diri"
-                                        role="tab" aria-controls="data-diri" aria-selected="true">Data Diri</a>
+                            <ul class="nav nav-tabs" id="customTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab"
+                                        aria-controls="one" aria-selected="true">Data Diri</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="pencapaian-tab" data-toggle="tab" href="#pencapaian"
-                                        role="tab" aria-controls="pencapaian" aria-selected="true">Pencapaian</a>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab"
+                                        aria-controls="two" aria-selected="false">Pencapaian</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#three" role="tab"
+                                        aria-controls="three" aria-selected="false">Pesan</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                         <input type="button" class="profile-edit-btn" name="btn-edit-profile" data-toggle="modal"
                             data-target="#modal-edit-profile" value="Edit Profile" />
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                     </div>
                     <div class="col-md-8">
-                        <div class="tab-content profile-tab" id="myTabContent">
-                            <!-- data diri -->
-                            <div class="tab-pane fade show active" id="data-diri" role="tabpanel"
-                                aria-labelledby="data-diri-tab">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Username</label>
+                        <!-- new tab -->
+                        <div class="custom-tabs-container">
+                            <!-- content tabs -->
+                            <div class="tab-content" id="customTabContent">
+                                <div class="tab-pane py-3 fade show active" id="one" role="tabpanel">
+                                    <!-- data diri -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Username</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <?= $data_user['username'] ?>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p>
-                                            <?= $data_user['username'] ?>
-                                        </p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Nama Lengkap</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <?= $data_user['nama_lengkap'] ?>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Name</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Email</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <?= $data_user['email'] ?>
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p>
-                                            <?= $data_user['nama_lengkap'] ?>
-                                        </p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Role</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <?= $_SESSION['role'] ?>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Email</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>
-                                            <?= $data_user['email'] ?>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Role</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>
-                                            <?= $_SESSION['role'] ?>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p>
-                                        <form action="profile.php" method="POST">
-                                            <button class="btn btn-danger" name="logout">Logout</button>
-                                        </form>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- pencapaian -->
-                            <div class="tab-pane fade show" id="pencapaian" role="tabpanel"
-                                aria-labelledby="pencapaian-tab">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>anjay</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>
-                                            <?= $data_user['username'] ?>
-                                        </p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                            <form action="profile.php" method="POST">
+                                                <button class="btn btn-danger" name="logout">Logout</button>
+                                            </form>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Name</label>
+                                <!-- data diri end -->
+                                <!-- pencapaian start -->
+                                <div class="tab-pane py-3 fade" id="two" role="tabpanel">
+                                    <h3>Ini pencapaian</h3>
+                                </div>
+                                <!-- pencapaian end -->
+                                <!-- pesan start -->
+                                <div class="tab-pane py-3 fade" id="three" role="tabpanel">
+                                    <a class="text-dark" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModalScrollable">
+                                        <div class=" border p-2">
+                                            <?= $data_pesan["judul"] ?>
+                                        </div>
+                                    </a>
+                                    <div class="container-fluid border">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalScrollable">
+                                            Launch demo modal
+                                        </button>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p>
-                                            <?= $data_user['nama_lengkap'] ?>
-                                        </p>
+                                    <div class="container-fluid border">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalScrollable">
+                                            Launch demo modal
+                                        </button>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalScrollable" tabindex="-1"
+                                        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalScrollableTitle">
+                                                        Pesan
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                                        Corporis, ipsum aliquid. Quis, similique! Delectus ratione
+                                                        doloremque totam! Doloremque voluptas soluta distinctio, optio
+                                                        exercitationem excepturi consectetur cupiditate sequi culpa eum
+                                                        reiciendis.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary">
+                                                        Save changes
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <!-- pesan end -->
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
         <!--  -->
-
-
-        <div class="" style="padding-top: 300px;">
-
-        </div>
     </div>
 
     </div>

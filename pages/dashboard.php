@@ -1,6 +1,12 @@
-<?
+<?php
 
+include "../service/config.php";
+session_start();
 
+// check login
+if ($_SESSION["is_login"] == false) {
+    header("location: ../index.php");
+}
 
 ?>
 
@@ -35,7 +41,7 @@
 
             <!-- App brand starts -->
             <div class="app-brand px-3 py-2 d-flex align-items-center">
-                <a href="index.html">
+                <a href="pengaduan.php">
                     <img src="assets/images/logo.svg" class="logo" alt="Bootstrap Gallery" />
                 </a>
             </div>

@@ -59,6 +59,9 @@ include "service/config.php";
               <a class="nav-link" href="#">Berita</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="./pages/pengaduan.php">Pengaduan</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="#">Galeri</a>
             </li>
             <li class="nav-item">
@@ -89,18 +92,18 @@ include "service/config.php";
           >
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="./img/farmer-1.jpg" class="d-block w-100" alt="..." />
+                <img src="assets/img/farmer-1.jpg" class="d-block w-100" alt="..." />
               </div>
               <div class="carousel-item">
                 <img
-                  src="./img/ex-village-1.jpg"
+                  src="assets/img/ex-village-1.jpg"
                   class="d-block w-100"
                   alt="..."
                 />
               </div>
               <div class="carousel-item">
                 <img
-                  src="./img/ex-village-2.jpg"
+                  src="assets/img/ex-village-2.jpg"
                   class="d-block w-100"
                   alt="..."
                 />
@@ -136,13 +139,13 @@ include "service/config.php";
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="./img/farmer-1.jpg" class="d-block w-100" alt="Bootstrap Gallery" />
+                <img src="assets/img/farmer-1.jpg" class="d-block w-100" alt="Bootstrap Gallery" />
               </div>
               <div class="carousel-item">
-                <img src="./img/ex-village-1.jpg" class="d-block w-100" alt="Bootstrap Gallery" />
+                <img src="assets/img/ex-village-1.jpg" class="d-block w-100" alt="Bootstrap Gallery" />
               </div>
               <div class="carousel-item">
-                <img src="./img/ex-village-2.jpg" class="d-block w-100" alt="Bootstrap Gallery" />
+                <img src="assets/img/ex-village-2.jpg" class="d-block w-100" alt="Bootstrap Gallery" />
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2"
@@ -161,7 +164,7 @@ include "service/config.php";
       <!-- img -->
       <!-- <div class="float-end img-tumbnail">
             <img
-              src="./img/ex-village-3.jpg"
+              src="assets/img/ex-village-3.jpg"
               class="d-block img-tumbnail"
               alt="Admin Dashboards"
             />
@@ -204,7 +207,7 @@ include "service/config.php";
             <!-- img -->
             <div class="col-10 col-sm-8 col-lg-6" data-aos="fade-up" data-aos-duration="650">
               <div class="mt-4">
-                <img src="./img/ex-village-3.jpg" class="d-block mx-lg-auto img-fluid" alt="Admin Dashboards" />
+                <img src="assets/img/ex-village-3.jpg" class="d-block mx-lg-auto img-fluid" alt="Admin Dashboards" />
               </div>
             </div>
           </div>
@@ -216,7 +219,7 @@ include "service/config.php";
             <!-- img -->
             <div class="col-10 col-sm-8 col-lg-6" data-aos="fade-up" data-aos-duration="650">
               <div class="mt-4">
-                <img src="./img/ex-village-3.jpg" class="d-block mx-lg-auto img-fluid" alt="Admin Dashboards" />
+                <img src="assets/img/ex-village-3.jpg" class="d-block mx-lg-auto img-fluid" alt="Admin Dashboards" />
               </div>
             </div>
             <div class="col-lg-6 mb-5 text-end" data-aos="fade-up" data-aos-duration="500">
@@ -335,7 +338,7 @@ include "service/config.php";
           <!-- card berita start -->
           <div class="container container-fluid d-flex justify-content-between flex-wrap">
             <div class="card m-2" style="width: 18rem">
-              <img src="./img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
               <div class="card-body">
                 <h5 class="card-title">
                   <a href="#" class="link-underline link-underline-opacity-0 text-dark">
@@ -345,7 +348,7 @@ include "service/config.php";
               </div>
             </div>
             <div class="card m-2" style="width: 18rem">
-              <img src="./img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
               <div class="card-body">
                 <h5 class="card-title">
                   <a href="#" class="link-underline link-underline-opacity-0 text-dark">
@@ -355,7 +358,7 @@ include "service/config.php";
               </div>
             </div>
             <div class="card m-2" style="width: 18rem">
-              <img src="./img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
               <div class="card-body">
                 <h5 class="card-title">
                   <a href="#" class="link-underline link-underline-opacity-0 text-dark">
@@ -365,7 +368,7 @@ include "service/config.php";
               </div>
             </div>
             <div class="card m-2" style="width: 18rem">
-              <img src="./img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
               <div class="card-body">
                 <h5 class="card-title">
                   <a href="#" class="link-underline link-underline-opacity-0 text-dark">
@@ -381,8 +384,8 @@ include "service/config.php";
     </div>
     <!-- berita start -->
   </div>
+  <!-- main container end -->
 
-  <!-- </div> -->
 
   <!-- js -->
   <script src="./js/main.js"></script>

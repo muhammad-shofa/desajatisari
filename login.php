@@ -51,8 +51,12 @@ if (isset($_POST['masuk'])) {
 
 <body>
     <div class="container">
-        <div class="row justify-content-center">
+        <!-- nav start -->
+        <?php include "layout/navbar.php" ?>
+        <!-- nav end -->
+        <div class="row justify-content-center" style="padding-top: 50px;">
             <div class="col-xl-4 col-lg-5 col-sm-6 col-12">
+                <!-- fomr start -->
                 <form action="login.php" method="POST" class="my-5">
                     <div class="border rounded-2 p-4 mt-5">
                         <div class="login-form">

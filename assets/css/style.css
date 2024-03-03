@@ -1,5 +1,4 @@
 body {
-  min-height: 4000px;
   transition: all 0.3s ease-in-out;
 }
 
@@ -12,10 +11,6 @@ body {
 svg {
   z-index: 1;
   /* border: 2px solid red; */
-}
-
-.waves-btm-hero {
-  /* padding-top: 450px; */
 }
 
 b {
@@ -31,10 +26,6 @@ h6 {
   font-family: "montserrat";
 }
 
-nav {
-  /* height: 65px; */
-  /* background-color: var(--primary); */
-}
 
 nav span a {
   color: var(--accent-yellow);
