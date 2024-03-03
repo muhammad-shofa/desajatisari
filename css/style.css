@@ -32,12 +32,16 @@ h6 {
 }
 
 nav {
-  height: 65px;
-  background-color: var(--primary);
+  /* height: 65px; */
+  /* background-color: var(--primary); */
 }
 
 nav span a {
   color: var(--accent-yellow);
+}
+
+nav #nav-container {
+  background-color: var(--primary);
 }
 
 nav ul li a {
@@ -69,25 +73,19 @@ nav .active-link {
   width: 350px;
 }
 
-/* bg auto carousel start */
-/* #carouselExampleSlidesOnly {
-  position: absolute;
-} */
-/* bg auto carousel end */
-
 /* about */
 
 .about {
   min-height: 700px;
-  /* margin-top: -250px; */
   background-color: var(--primary);
 }
 
-.line-in-top::before {
+/* .line-in-top-start */
+h2::before {
   content: "";
   position: absolute;
   top: -10px;
-  left: 5%;
+  left: 0%;
   width: 100px;
   height: 3px;
   background-color: var(--accent-yellow);
@@ -110,4 +108,15 @@ nav .active-link {
   background-image: url(../img/farmer-2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.service .card:hover {
+  transform: translateY(-15px);
+}
+
+/* berita */
+
+.berita {
+  min-height: 1000px;
+  background-color: var(--primary);
 }
