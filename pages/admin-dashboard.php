@@ -11,7 +11,14 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
 // get data users
 $sql_users = "SELECT * FROM users";
 $result_users = $db->query($sql_users);
-$data_users = $result_users->fetch_assoc();
+$jumlah_users = mysqli_num_rows($result_users);
+
+// get data pengaduan
+$sql_pengaduan = "SELECT * FROM pengaduan";
+$result_pengaduan = $db->query($sql_pengaduan);
+$jumlah_pengaduan = mysqli_num_rows($result_pengaduan);
+
+$db->close();
 
 
 ?>
@@ -70,7 +77,6 @@ $data_users = $result_users->fetch_assoc();
 
                 <!-- App header starts -->
                 <div class="app-header d-flex align-items-center">
-
                     <!-- Toggle buttons start -->
                     <div class="d-flex">
                         <button class="btn btn-outline-primary me-2 toggle-sidebar" id="toggle-sidebar">
@@ -307,14 +313,10 @@ $data_users = $result_users->fetch_assoc();
                                                 <i class="bi bi-bag-check text-primary fs-2"></i>
                                             </div>
                                             <div class="ms-4">
-                                                <p class="mb-2 lh-1 d-flex align-items-center">
-                                                    <i class="bi bi-caret-up-fill text-success me-1 fs-3"></i><span
-                                                        class="text-success me-2">8%
-                                                    </span> from
-                                                    last week.
-                                                </p>
-                                                <h1 class="fw-bold mb-2">2,500</h1>
-                                                <h6 class="m-0 fw-normal opacity-50">Visitors</h6>
+                                                <h1 class="fw-bold mb-2">
+                                                    <?= $jumlah_pengaduan ?>
+                                                </h1>
+                                                <h6 class="m-0 fw-normal opacity-50">Pengaduan</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -328,13 +330,8 @@ $data_users = $result_users->fetch_assoc();
                                                 <i class="bi bi-bag-check text-primary fs-2"></i>
                                             </div>
                                             <div class="ms-4">
-                                                <p class="mb-2 lh-1 d-flex align-items-center">
-                                                    <i class="bi bi-caret-up-fill text-success me-1 fs-3"></i><span
-                                                        class="text-success me-2">23% </span> from
-                                                    last week.
-                                                </p>
                                                 <h1 class="fw-bold mb-2">3,900</h1>
-                                                <h6 class="m-0 fw-normal opacity-50">Subscribers</h6>
+                                                <h6 class="m-0 fw-normal opacity-50">Berita</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -348,15 +345,10 @@ $data_users = $result_users->fetch_assoc();
                                                 <i class="bi bi-bag-check text-primary fs-2"></i>
                                             </div>
                                             <div class="ms-4">
-                                                <?php // for ($i = 1; $i < 5; $i++) 
-                                                // echo $i;  
-                                                if ($result_users->num_rows > 0) {
-                                                    while ($result_users->fetch_assoc()) { ?>
-                                                        <?=  $result_users ?>
-                                                        <h1 class="fw-bold mb-2"></h1>
-                                                        <h6 class="m-0 fw-normal opacity-50">Users</h6>
-                                                    <?php } ?>
-                                                <?php } ?>
+                                                <h1 class="fw-bold mb-2">
+                                                    <?= $jumlah_users ?>
+                                                </h1>
+                                                <h6 class="m-0 fw-normal opacity-50">Users</h6>
                                             </div>
                                         </div>
                                     </div>
@@ -396,16 +388,13 @@ $data_users = $result_users->fetch_assoc();
     <script src="../assets/vendor/toastify/custom.js"></script>
 
     <!-- Apex Charts -->
-    <script src="../assets/vendor/apex/apexcharts.min.js"></script>
+    <!-- <script src="../assets/vendor/apex/apexcharts.min.js"></script>
     <script src="../assets/vendor/apex/custom/home/overview.js"></script>
     <script src="../assets/vendor/apex/custom/home/reachedAudience.js"></script>
     <script src="../assets/vendor/apex/custom/home/social.js"></script>
     <script src="../assets/vendor/apex/custom/home/sparkline.js"></script>
     <script src="../assets/vendor/apex/custom/home/sparkline2.js"></script>
-    <script src="../assets/vendor/apex/custom/home/visitors.js"></script>
-
-    <!-- Custom JS files -->
-    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/vendor/apex/custom/home/visitors.js"></script> -->
 </body>
 
 </html>

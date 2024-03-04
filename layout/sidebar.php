@@ -12,20 +12,20 @@
     <!-- Sidebar menu starts -->
     <div class="sidebarMenuScroll">
         <ul class="sidebar-menu">
-            <li class="active current-page">
-                <a href="../pages/dashboard/php">
+            <li class="active " id="dashboard">
+                <a href="admin-dashboard.php">
                     <i class="bi bi-pie-chart"></i>
                     <span class="menu-text">Dashboard</span>
                 </a>
             </li>
-            <li>
+            <li >
                 <a href="admin-pengaduan.php">
                     <i class="bi bi-pie-chart"></i>
                     <span class="menu-text">Pengaduan</span>
                 </a>
             </li>
             <li>
-                <a href="../pages/admin-berita.php">
+                <a href="admin-berita.php">
                     <i class="bi bi-pie-chart"></i>
                     <span class="menu-text">Berita</span>
                 </a>
@@ -37,3 +37,8 @@
 
 </nav>
 <!-- Sidebar wrapper end -->
+
+<!-- js -->
+<script>
+    let linkSidebar = document.getElementById("");
+</script>

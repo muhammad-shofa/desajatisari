@@ -186,6 +186,7 @@ if (isset($_POST["logout"])) {
                             <br>
                             <br>
                             <!-- <form action="profile.php" method="POST"> -->
+                            <a href="admin-dashboard.php" class="btn btn-primary" name="dashboard">Dashboard</a>
                             <button class="btn btn-primary" name="edit">Edit</button>
                             <button class="btn btn-danger" name="logout">keluar</button>
                             <!-- </form> -->
