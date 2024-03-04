@@ -13,9 +13,10 @@ if ($_SESSION["is_login"] == false) {
 // kirim aduan
 if (isset($_POST["kirim"])) {
     $pengirim = $_POST["pengirim"];
+    $user_id = $_SESSION['user_id'];
     $judul = $_POST["judul"];
     $aduan = $_POST["aduan"];
-    $sql_kirim_aduan = "INSERT INTO pengaduan (pengirim, judul, aduan) VALUES ('$pengirim', '$judul', '$aduan')";
+    $sql_kirim_aduan = "INSERT INTO pengaduan (pengirim, user_id, judul, aduan) VALUES ('$pengirim', '$user_id', '$judul', '$aduan')";
     $result = $db->query($sql_kirim_aduan);
     if ($result) {
         echo "<script>

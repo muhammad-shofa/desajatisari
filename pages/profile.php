@@ -16,9 +16,9 @@ $data_user = $result_user->fetch_assoc();
 $user_id = $_SESSION['user_id'];
 
 // get pesan user
-$sql_pesan = "SELECT * FROM pengaduan WHERE pengirim={$_SESSION['username']}";
+$sql_pesan = "SELECT * FROM pengaduan WHERE user_id={$_SESSION['user_id']}";
 $result_pesan = $db->query($sql_pesan);
-$data_pesan = $result_pesan->fetch_assoc();
+// $data_pesan = $result_pesan->fetch_assoc();
 
 $db->close();
 
@@ -47,7 +47,7 @@ if (isset($_POST["logout"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <style>
         .emp-profile {
             padding: 3%;
@@ -179,10 +179,16 @@ if (isset($_POST["logout"])) {
         <!-- Container ends -->
         <div class="container-fluid emp-profile pt-5">
             <form class="pt-5" action="profile.php" method="POST">
-                <div class="row">
-                    <div class="col-md-4">
+                <div class="row ">
+                    <div class="col-md-4 ">
                         <div class="profile-img">
                             <img src="../assets/img/default.png" alt="" />
+                            <br>
+                            <br>
+                            <!-- <form action="profile.php" method="POST"> -->
+                            <button class="btn btn-primary" name="edit">Edit</button>
+                            <button class="btn btn-danger" name="logout">keluar</button>
+                            <!-- </form> -->
                             <!-- <div class="file btn btn-lg btn-primary ">
                                 Change Photo
                                 <input type="file" name="file" />
@@ -193,7 +199,7 @@ if (isset($_POST["logout"])) {
                                     Launch Warning Toast
                                 </button> -->
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 ">
                         <div class="profile-head pt-5">
                             <h5>
                                 <?= $data_user['username'] ?>
@@ -216,136 +222,148 @@ if (isset($_POST["logout"])) {
                                         aria-controls="three" aria-selected="false">Pesan</a>
                                 </li>
                             </ul>
+                            <!-- container tab start -->
+                            <div class="custom-tabs-container">
+                                <!-- content tabs -->
+                                <div class="tab-content" id="customTabContent">
+                                    <div class="tab-pane fade show active" id="one" role="tabpanel">
+                                        <!-- data diri -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Username</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <?= $data_user['username'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Nama Lengkap</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <?= $data_user['nama_lengkap'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <?= $data_user['email'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Role</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <?= $_SESSION['role'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- data diri end -->
+                                    <!-- pencapaian start -->
+                                    <div class="tab-pane fade" id="two" role="tabpanel">
+                                        <h3>Ini pencapaian</h3>
+                                    </div>
+                                    <!-- pencapaian end -->
+                                    <!-- pesan start -->
+                                    <div class="tab-pane fade" id="three" role="tabpanel">
+                                        <?php if ($result_pesan->num_rows > 0) { ?>
+                                            <h2>Pengaduan Anda</h2>
+                                            <?php while ($data_pesan = $result_pesan->fetch_assoc()) { ?>
+                                                <a class="link-underline link-underline-opacity-0 text-dark"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-pengaduan-<?= $data_pesan["pengaduan_id"] ?>">
+                                                    <div class="d-flex justify-content-between border p-2">
+                                                        <?= $data_pesan["judul"] ?>
+                                                        <?= $data_pesan["tanggal_pengaduan"] ?>
+                                                        <?php if ($data_pesan["status_dibaca"] == 'Belum') { ?>
+                                                            <div class="float-end">
+                                                                <?= $data_pesan["status_dibaca"] ?> dibaca
+                                                            </div>
+                                                        <?php } else { ?>
+                                                            <div class="float-end text-secondary">
+                                                                <?= $data_pesan["status_dibaca"] ?> dibaca
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                </a>
+                                                <!-- Modal start -->
+                                                <div class="modal fade" id="modal-pengaduan-<?= $data_pesan["pengaduan_id"] ?>"
+                                                    tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalScrollableTitle">
+                                                                    <?= $data_pesan["judul"] ?>
+                                                                </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>
+                                                                    Tanggal Pengaduan :<br>
+                                                                    <?= $data_pesan['tanggal_pengaduan'] ?>
+                                                                </p>
+                                                                <p>
+                                                                    Teks Aduan :<br>
+                                                                    <?= $data_pesan['aduan'] ?>
+                                                                </p>
+                                                                <p>
+                                                                    Status :<br>
+                                                                    Pesan kamu
+                                                                    <?php if ($data_pesan["status_dibaca"] == 'Sudah') { ?>
+                                                                        <b class="text-success">
+                                                                            <?= $data_pesan["status_dibaca"] ?>
+                                                                        </b>
+                                                                    <?php } else { ?>
+                                                                        <b class="text-warning">
+                                                                            <?= $data_pesan["status_dibaca"] ?>
+                                                                        </b>
+                                                                    <?php } ?>
+                                                                    dibaca oleh pihak desa.
+                                                                </p>
+                                                            </div>
+                                                            <!-- <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger"
+                                                                data-bs-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Modal end -->
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <div class="d-flex justify-content-between border p-2">
+                                                <p>Kamu belum pernah mengirim / menerima pesan</p>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                    <!-- pesan end -->
+                                </div>
+                            </div>
+                            <!-- container tab end -->
                         </div>
                     </div>
+                    <!-- <div class="col-md-2">
+                       
+                    </div> -->
                     <!-- <div class="col-md-2">
                         <input type="button" class="profile-edit-btn" name="btn-edit-profile" data-toggle="modal"
                             data-target="#modal-edit-profile" value="Edit Profile" />
                     </div> -->
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-8">
-                        <!-- new tab -->
-                        <div class="custom-tabs-container">
-                            <!-- content tabs -->
-                            <div class="tab-content" id="customTabContent">
-                                <div class="tab-pane py-3 fade show active" id="one" role="tabpanel">
-                                    <!-- data diri -->
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Username</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <?= $data_user['username'] ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Nama Lengkap</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <?= $data_user['nama_lengkap'] ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <?= $data_user['email'] ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Role</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <?= $_SESSION['role'] ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                            <form action="profile.php" method="POST">
-                                                <button class="btn btn-danger" name="logout">Logout</button>
-                                            </form>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- data diri end -->
-                                <!-- pencapaian start -->
-                                <div class="tab-pane py-3 fade" id="two" role="tabpanel">
-                                    <h3>Ini pencapaian</h3>
-                                </div>
-                                <!-- pencapaian end -->
-                                <!-- pesan start -->
-                                <div class="tab-pane py-3 fade" id="three" role="tabpanel">
-                                    <a class="text-dark" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalScrollable">
-                                        <div class=" border p-2">
-                                            <?= $data_pesan["judul"] ?>
-                                        </div>
-                                    </a>
-                                    <div class="container-fluid border">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModalScrollable">
-                                            Launch demo modal
-                                        </button>
-                                    </div>
-                                    <div class="container-fluid border">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModalScrollable">
-                                            Launch demo modal
-                                        </button>
-                                    </div>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModalScrollable" tabindex="-1"
-                                        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-scrollable">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalScrollableTitle">
-                                                        Pesan
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                        Corporis, ipsum aliquid. Quis, similique! Delectus ratione
-                                                        doloremque totam! Doloremque voluptas soluta distinctio, optio
-                                                        exercitationem excepturi consectetur cupiditate sequi culpa eum
-                                                        reiciendis.</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        Close
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary">
-                                                        Save changes
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- pesan end -->
-
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </form>
         </div>
