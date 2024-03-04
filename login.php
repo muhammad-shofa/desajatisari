@@ -21,7 +21,7 @@ if (isset($_POST['masuk'])) {
         $_SESSION["role"] = $data_user["role"];
         $_SESSION["is_login"] = true;
         if ($_SESSION["role"] === "Admin") {
-            header("location: pages/dashboard.php");
+            header("location: pages/admin-dashboard.php");
         } else {
             header("location: pages/profile.php");
         }
