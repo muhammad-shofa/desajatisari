@@ -1,0 +1,113 @@
+body {
+  transition: all 0.3s ease-in-out;
+}
+
+:root {
+  --primary: #ffffff;
+  --secondary: #3659cd;
+  --accent-yellow: #ffc107;
+}
+
+svg {
+  z-index: 1;
+  /* border: 2px solid red; */
+}
+
+b {
+  color: var(--accent-yellow);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "montserrat";
+}
+
+
+nav span a {
+  color: var(--accent-yellow);
+}
+
+nav #nav-container {
+  background-color: var(--primary);
+}
+
+nav ul li a {
+  color: black;
+}
+
+nav ul li a:hover {
+  color: var(--accent-yellow);
+}
+
+nav .active-link {
+  color: var(--accent-yellow);
+  transition: all 0.3s ease-in-out;
+}
+
+/* hero */
+.hero {
+  width: 100%;
+  height: 700px;
+  background: rgb(57, 87, 237);
+  background: linear-gradient(
+    225deg,
+    rgba(57, 87, 237, 1) 33%,
+    rgba(26, 41, 240, 1) 71%
+  );
+}
+
+.hero img {
+  width: 350px;
+}
+
+/* about */
+
+.about {
+  min-height: 700px;
+  background-color: var(--primary);
+}
+
+/* .line-in-top-start */
+h2::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0%;
+  width: 100px;
+  height: 3px;
+  background-color: var(--accent-yellow);
+}
+
+.line-in-top-center::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 45%;
+  width: 100px;
+  height: 3px;
+  background-color: var(--accent-yellow);
+}
+
+/* service */
+
+.service {
+  min-height: 1000px;
+  background-image: url(../img/farmer-2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.service .card:hover {
+  transform: translateY(-15px);
+}
+
+/* berita */
+
+.berita {
+  min-height: 1000px;
+  background-color: var(--primary);
+}
