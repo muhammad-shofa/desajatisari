@@ -1,13 +1,18 @@
 <?php
 
-include "../service/config.php";
+include "../service/connection.php";
+include "../service/sql-berita.php";
 session_start();
 
-// get data berita
-$sql_berita = "SELECT * FROM berita";
-$result = $db->query($sql_berita);
+// connect db
+$connection = new database();
+$connection->connection();
+// $db = $connection;
 
-
+// select berita
+$sql_berita = new berita();
+$result = $connection->connected()->query($sql_berita->select_berita());
+$data_berita = $result->fetch_assoc();
 
 
 ?>
@@ -97,14 +102,95 @@ $result = $db->query($sql_berita);
                     <!-- card start -->
                     <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
                                 Tambah Berita
                             </button>
+                            <!-- modal tambah berita start -->
+                            <div class="modal fade" id="modal-lg">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Tambah Berita Baru</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="admin-berita.php" method="POST">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="judul_berita">Judul</label>
+                                                        <input type="text" class="form-control" id="judul_berita"
+                                                            Name="judul_berita" placeholder="Enter email">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPassword1">Password</label>
+                                                        <input type="password" class="form-control"
+                                                            id="exampleInputPassword1" placeholder="Password">
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">Check me
+                                                            out</label>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer justify-content-end">
+                                            <button type="submit" class="btn btn-primary">Post</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- modal tambah berita end -->
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <!-- card berita start -->
                             <div class="container container-fluid d-flex justify-content-between flex-wrap">
+                                <div class="card m-2" style="width: 18rem">
+                                    <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="#" class="link-underline link-underline-opacity-0 text-dark">
+                                                <?= $data_berita["judul"] ?>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="card m-2" style="width: 18rem">
+                                    <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="#" class="link-underline link-underline-opacity-0 text-dark">
+                                                Petani di Desa Jatisari Panen 10.000 Ton beras
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="card m-2" style="width: 18rem">
+                                    <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="#" class="link-underline link-underline-opacity-0 text-dark">
+                                                Petani di Desa Jatisari Panen 10.000 Ton beras
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="card m-2" style="width: 18rem">
+                                    <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="#" class="link-underline link-underline-opacity-0 text-dark">
+                                                Petani di Desa Jatisari Panen 10.000 Ton beras
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
                                 <div class="card m-2" style="width: 18rem">
                                     <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
                                     <div class="card-body">
@@ -138,8 +224,9 @@ $result = $db->query($sql_berita);
                             </div>
                             <!-- card berita end -->
                         </div>
-                        <!-- card end -->
                     </div>
+                    <!-- card end -->
+                </div>
             </section>
         </div>
     </div>
