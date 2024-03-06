@@ -79,7 +79,6 @@ if (isset($_POST['masuk'])) {
                                 <input type="password" name="password" id="password" class="form-control"
                                     placeholder="Masukkan password" required />
                             </div>
-
                             <div class="d-grid py-3 mt-3">
                                 <button type="submit" name="masuk" class="btn btn-lg btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#exampleModalCenter">

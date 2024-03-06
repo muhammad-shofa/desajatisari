@@ -3,15 +3,30 @@
 include "../service/config.php";
 session_start();
 
-// check login
-if ($_SESSION["is_login"] == false) {
+// $messsage_dibaca = "";
+
+// check login and role
+if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
     header("location: ../index.php");
+    exit;
 }
 
-// $sql_pengaduan
+// sql readed
+if (isset($_POST["tandai-dibaca"])) {
+    $pengaduan_id = $_POST["target_pengaduan_id"];
+    $sql_readed = "UPDATE pengaduan SET status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id";
+    $result_readed = $db->query($sql_readed);
+    if ($result_readed) {
+        header("location: admin-pengaduan.php");
+        exit;
+    }
+}
+
+// sql pengaduan
 $sql_pengaduan = "SELECT * FROM pengaduan";
 $result_pengaduan = $db->query($sql_pengaduan);
-$data_pengaduan = $result_pengaduan->fetch_array();
+
+$db->close();
 
 ?>
 
@@ -21,6 +36,15 @@ $data_pengaduan = $result_pengaduan->fetch_array();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <title>AdminLTE 3 | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -44,6 +68,10 @@ $data_pengaduan = $result_pengaduan->fetch_array();
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -75,7 +103,7 @@ $data_pengaduan = $result_pengaduan->fetch_array();
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
+                                <li class="breadcrumb-item active">Pengaduan</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -87,73 +115,176 @@ $data_pengaduan = $result_pengaduan->fetch_array();
             <section class="content">
                 <div class="container-fluid">
                     <!-- Container starts -->
-                    <h2>Pengaduan</h2>
                     <!-- pengaduan start -->
-                    <div>
-                        <?php if ($result_pengaduan->num_rows > 0) { ?>
-                            <?php while ($data_pengaduan = $result_pengaduan->fetch_assoc()) { ?>
-                                <a class="link-underline link-underline-opacity-0 text-dark" data-bs-toggle="modal"
-                                    data-bs-target="#modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
-                                    <div class="d-flex justify-content-between border p-2">
-                                        <?= $data_pengaduan["judul"] ?>
-                                        <?= $data_pengaduan["tanggal_pengaduan"] ?>
-                                        <?php if ($data_pengaduan["status_dibaca"] == 'Belum') { ?>
-                                            <div class="float-end">
-                                                <?= $data_pengaduan["status_dibaca"] ?> dibaca
-                                            </div>
-                                        <?php } else { ?>
-                                            <div class="float-end text-secondary">
-                                                <?= $data_pengaduan["status_dibaca"] ?> dibaca
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-                                </a>
-                                <!-- Modal start -->
-                                <div class="modal fade" id="modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>"
-                                    tabindex="-1" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalScrollableTitle">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Pengaduan</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Pengirim</th>
+                                        <th>Judul</th>
+                                        <th>Aduan</th>
+                                        <th>Status Dibaca</th>
+                                        <th>Tanggal Pengaduan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($result_pengaduan->num_rows > 0) { ?>
+                                        <?php while ($data_pengaduan = $result_pengaduan->fetch_assoc()) { ?>
+                                            <tr>
+                                                <td>
+                                                    <?= $data_pengaduan["pengaduan_id"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_pengaduan["pengirim"] ?>
+                                                </td>
+                                                <td>
                                                     <?= $data_pengaduan["judul"] ?>
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>
-                                                    Tanggal Pengaduan :<br>
-                                                    <?= $data_pengaduan['tanggal_pengaduan'] ?>
-                                                </p>
-                                                <p>
-                                                    Teks Aduan :<br>
-                                                    <?= $data_pengaduan['aduan'] ?>
-                                                </p>
-                                                <p>
-                                                    Status :<br>
-                                                    pengaduan kamu
-                                                    <?php if ($data_pengaduan["status_dibaca"] == 'Sudah') { ?>
-                                                        <b class="text-success">
-                                                            <?= $data_pengaduan["status_dibaca"] ?>
-                                                        </b>
+                                                </td>
+                                                <td>
+                                                    <?php if (strlen($data_pengaduan["aduan"]) >= 20) {
+                                                        $new_string = substr($data_pengaduan["aduan"], 0, 20) . "...";
+                                                        echo $new_string;
+                                                    } else {
+                                                        $new_string = substr($data_pengaduan["aduan"], 0, 20) . "...";
+                                                        echo $new_string;
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_pengaduan["status_dibaca"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_pengaduan["tanggal_pengaduan"] ?>
+                                                </td>
+                                                <td>
+                                                    <?php if ($data_pengaduan["status_dibaca"] == "Belum") { ?>
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                            data-target="#modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
+                                                            Baca
+                                                        </button>
                                                     <?php } else { ?>
-                                                        <b class="text-warning">
-                                                            <?= $data_pengaduan["status_dibaca"] ?>
-                                                        </b>
+                                                        <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                                            data-target="#modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
+                                                            Detail
+                                                        </button>
                                                     <?php } ?>
-                                                    dibaca oleh pihak desa.
-                                                </p>
+                                                </td>
+                                            </tr>
+                                            <!-- modal start -->
+                                            <div class="modal fade" id="modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">
+                                                                <?= $data_pengaduan["judul"] ?>
+                                                            </h4>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                ID :<br>
+                                                                <?= $data_pengaduan['pengaduan_id'] ?>
+                                                            </p>
+                                                            <p>
+                                                                Pengirim :<br>
+                                                                <?= $data_pengaduan['pengirim'] ?>
+                                                            </p>
+                                                            <p>
+                                                                Judul :<br>
+                                                                <?= $data_pengaduan['judul'] ?>
+                                                            </p>
+                                                            <p>
+                                                                Pengirim :<br>
+                                                                <?= $data_pengaduan['pengirim'] ?>
+                                                            </p>
+                                                            <p>
+                                                                Teks Aduan :<br>
+                                                                <?= $data_pengaduan["aduan"] ?>
+                                                            </p>
+                                                            <p>
+                                                                Status dibaca :<br>
+                                                                <?php if ($data_pengaduan["status_dibaca"] == 'Sudah') { ?>
+                                                                    <b class="text-success">
+                                                                        <?= $data_pengaduan["status_dibaca"] ?>
+                                                                    </b>
+                                                                <?php } else { ?>
+                                                                    <b class="text-warning">
+                                                                        <?= $data_pengaduan["status_dibaca"] ?>
+                                                                    </b>
+                                                                <?php } ?>
+                                                            </p>
+                                                            <p>
+                                                                Tanggal Pengaduan :<br>
+                                                                <?= $data_pengaduan['tanggal_pengaduan'] ?>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-end">
+                                                            <form action="admin-pengaduan.php" method="POST">
+                                                                <input type="hidden" name="target_pengaduan_id"
+                                                                    value="<?= $data_pengaduan['pengaduan_id'] ?>">
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    name="tandai-dibaca" value>Tandai Dibaca</button>
+                                                            </form>
+                                                            <!--  -->
+                                                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#modal-confirm">
+                                                                Tandai Dibaca
+                                                            </button> -->
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Modal end -->
-                            <?php } ?>
-                        <?php } else { ?>
-                            <div class="d-flex justify-content-between border p-2">
-                                <p>Kamu belum pernah mengirim / menerima pengaduan</p>
-                            </div>
-                        <?php } ?>
+                                            <!-- Modal end -->
+                                            <!-- modal confirm start -->
+                                            <!-- modal start -->
+                                            <!-- <div class="modal fade" id="modal-confirm">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">
+                                                            </h4>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Apakah kamu yakin ingin menandai pesan ini sebagai Sudah Dibaca?
+                                                            </p>
+                                                        </div>
+                                                        <form action="admin-pengaduan.php" method="POST">
+                                                            <div class="modal-footer justify-content-end">
+                                                                <input type="hidden" name="target_pengaduan_id"
+                                                                    value="">
+                                                                <button type="button" class="btn btn-primary"
+                                                                    data-dismiss="modal">Tidak</button>
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    name="tandai-dibaca" value>Iya</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- modal confirm end -->
+                                        <?php } ?>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- /.card-body -->
                     </div>
                     <!-- pengaduan end -->
                 </div>
@@ -178,6 +309,10 @@ $data_pengaduan = $result_pengaduan->fetch_array();
     </div>
     <!-- ./wrapper -->
 
+    <!-- js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -209,6 +344,40 @@ $data_pengaduan = $result_pengaduan->fetch_array();
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.js"></script>
     <script src="../dist/js/pages/dashboard.js"></script>
+    <!-- jQuery -->
+    <!-- Bootstrap 4 -->
+    <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../plugins/jszip/jszip.min.js"></script>
+    <script src="../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 </body>
 
 </html>

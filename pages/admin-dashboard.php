@@ -1,3 +1,28 @@
+<?php
+
+include "../service/config.php";
+session_start();
+
+// check login and role
+if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
+    header("location: ../index.php");
+}
+
+// get data users
+$sql_users = "SELECT * FROM users";
+$result_users = $db->query($sql_users);
+$jumlah_users = mysqli_num_rows($result_users);
+
+// get data pengaduan
+$sql_pengaduan = "SELECT * FROM pengaduan";
+$result_pengaduan = $db->query($sql_pengaduan);
+$jumlah_pengaduan = mysqli_num_rows($result_pengaduan);
+
+$db->close();
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,76 +91,88 @@
 
             <!-- Main content -->
             <section class="content">
+                <!-- container fluid start -->
                 <div class="container-fluid">
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>150</h3>
-
-                                    <p>New Orders</p>
+                    <!-- card start -->
+                    <div class="card p-3">
+                        <h2 class="py-3">
+                            Selamat Datang
+                            <b class="text-warning">
+                                <?= $_SESSION["username"] ?>
+                            </b>
+                        </h2>
+                        <!-- Small boxes (Stat box) -->
+                        <div class="row">
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <h3>
+                                            <?= $jumlah_pengaduan ?>
+                                        </h3>
+                                        <p>Pengaduan</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-bag"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-bag"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-                                    <p>Bounce Rate</p>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-success">
+                                    <div class="inner">
+                                        <h3>23</h3>
+                                        <p>Berita</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-stats-bars"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-stats-bars"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>44</h3>
-
-                                    <p>User Registrations</p>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-warning">
+                                    <div class="inner">
+                                        <h3>
+                                            <?= $jumlah_users ?>
+                                        </h3>
+                                        <p>Pengguna Terdaftar</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-person-add"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>65</h3>
-
-                                    <p>Unique Visitors</p>
+                            <!-- ./col -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-danger">
+                                    <div class="inner">
+                                        <h3>65</h3>
+                                        <p>Acara</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-pie-graph"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                                <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
+                            <!-- ./col -->
                         </div>
-                        <!-- ./col -->
+                        <!-- /.row -->
                     </div>
-                    <!-- /.row -->
-
-                </div><!-- /.container-fluid -->
+                    <!-- card end -->
+                </div>
+                <!-- container fluid end -->
             </section>
             <!-- /.content -->
         </div>

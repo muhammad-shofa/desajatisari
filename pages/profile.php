@@ -5,7 +5,7 @@ session_start();
 
 // check login
 if ($_SESSION["is_login"] == false) {
-    header("location: index.php");
+    header("location: ../index.php");
 }
 
 // get data user
@@ -18,7 +18,6 @@ $user_id = $_SESSION['user_id'];
 // get pesan user
 $sql_pesan = "SELECT * FROM pengaduan WHERE user_id={$_SESSION['user_id']}";
 $result_pesan = $db->query($sql_pesan);
-// $data_pesan = $result_pesan->fetch_assoc();
 
 $db->close();
 
@@ -174,9 +173,7 @@ if (isset($_POST["logout"])) {
         <?php include "../layout/navbar.php" ?>
         <!-- nav end -->
         <!-- content -->
-        <!-- Container starts -->
-
-        <!-- Container ends -->
+        <!-- container start -->
         <div class="container-fluid emp-profile pt-5">
             <form class="pt-5" action="profile.php" method="POST">
                 <div class="row ">
@@ -185,20 +182,18 @@ if (isset($_POST["logout"])) {
                             <img src="../assets/img/default.png" alt="" />
                             <br>
                             <br>
-                            <!-- <form action="profile.php" method="POST"> -->
-                            <a href="admin-dashboard.php" class="btn btn-primary" name="dashboard">Dashboard</a>
+                            <?php if ($_SESSION["role"] != "Admin") { ?>
+                                <a href="admin-dashboard.php" class="btn btn-primary d-none" name="dashboard">Dashboard</a>
+                            <?php } else { ?>
+                                <a href="admin-dashboard.php" class="btn btn-primary" name="dashboard">Dashboard</a>
+                            <?php } ?>
                             <button class="btn btn-primary" name="edit">Edit</button>
                             <button class="btn btn-danger" name="logout">keluar</button>
-                            <!-- </form> -->
                             <!-- <div class="file btn btn-lg btn-primary ">
                                 Change Photo
                                 <input type="file" name="file" />
                             </div> -->
                         </div>
-                        <!-- tes alert -->
-                        <!-- <button type="button" class="btn btn-warning swalDefaultWarning1">
-                                    Launch Warning Toast
-                                </button> -->
                     </div>
                     <div class="col-md-6 ">
                         <div class="profile-head pt-5">
@@ -211,15 +206,15 @@ if (isset($_POST["logout"])) {
                             <br>
                             <ul class="nav nav-tabs" id="customTab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#one" role="tab"
-                                        aria-controls="one" aria-selected="true">Data Diri</a>
+                                    <a class="nav-link active" id="tab-one" data-bs-toggle="tab" href="#data-diri"
+                                        role="tab" aria-controls="one" aria-selected="true">Data Diri</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#two" role="tab"
+                                    <a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#pencapaian" role="tab"
                                         aria-controls="two" aria-selected="false">Pencapaian</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#three" role="tab"
+                                    <a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#pesan" role="tab"
                                         aria-controls="three" aria-selected="false">Pesan</a>
                                 </li>
                             </ul>
@@ -227,7 +222,7 @@ if (isset($_POST["logout"])) {
                             <div class="custom-tabs-container">
                                 <!-- content tabs -->
                                 <div class="tab-content" id="customTabContent">
-                                    <div class="tab-pane fade show active" id="one" role="tabpanel">
+                                    <div class="tab-pane fade show active" id="data-diri" role="tabpanel">
                                         <!-- data diri -->
                                         <div class="row">
                                             <div class="col-md-6">
@@ -272,12 +267,12 @@ if (isset($_POST["logout"])) {
                                     </div>
                                     <!-- data diri end -->
                                     <!-- pencapaian start -->
-                                    <div class="tab-pane fade" id="two" role="tabpanel">
+                                    <div class="tab-pane fade" id="pencapaian" role="tabpanel">
                                         <h3>Ini pencapaian</h3>
                                     </div>
                                     <!-- pencapaian end -->
                                     <!-- pesan start -->
-                                    <div class="tab-pane fade" id="three" role="tabpanel">
+                                    <div class="tab-pane fade" id="pesan" role="tabpanel">
                                         <?php if ($result_pesan->num_rows > 0) { ?>
                                             <h2>Pengaduan Anda</h2>
                                             <?php while ($data_pesan = $result_pesan->fetch_assoc()) { ?>
@@ -300,8 +295,7 @@ if (isset($_POST["logout"])) {
                                                 </a>
                                                 <!-- Modal start -->
                                                 <div class="modal fade" id="modal-pengaduan-<?= $data_pesan["pengaduan_id"] ?>"
-                                                    tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-                                                    aria-hidden="true">
+                                                    aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -368,7 +362,7 @@ if (isset($_POST["logout"])) {
                 </div>
             </form>
         </div>
-        <!--  -->
+        <!-- container end -->
     </div>
 
     </div>

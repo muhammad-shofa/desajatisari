@@ -8,6 +8,7 @@ $message_aduan = "";
 // check login
 if ($_SESSION["is_login"] == false) {
     header("location: ../index.php");
+    exit;
 }
 
 // kirim aduan
@@ -18,18 +19,26 @@ if (isset($_POST["kirim"])) {
     $aduan = $_POST["aduan"];
     $sql_kirim_aduan = "INSERT INTO pengaduan (pengirim, user_id, judul, aduan) VALUES ('$pengirim', '$user_id', '$judul', '$aduan')";
     $result = $db->query($sql_kirim_aduan);
-    if ($result) {
-        echo "<script>
-            let alert_message_aduan = document.getElementById('alert_message_aduan');
-            alert_message_aduan.style.display = 'block';
-        </script>";
-        $message_aduan = "Pesan anda berhasil terkirim, silahkan cek status aduan anda di <a href='profile.php'>profile</a>";
+    if ($result) { ?>
+        <script>
+            function showMessage() {
+                let alert_message_aduan = document.getElementById('alert_message_aduan');
+                alert_message_aduan.classList.add("show");
+            }
+        </script>
+        <?php
+        $message_aduan = "Pesan anda berhasil terkirim, silahkan cek status aduan anda pada bagian pesan di <a
+     href='profile.php'>profile</a>";
+    } ?>
+<?php }
+$db->close(); ?>
+
+<!-- <script>
+    function showMessage() {
+        let alert_message_aduan = document.getElementById('alert_message_aduan');
+        alert_message_aduan.classList.add("show");
     }
-}
-
-$db->close();
-
-?>
+</script> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,12 +68,10 @@ $db->close();
         <div class="wrapper">
             <div class="text-center" style="padding-top: 100px;">
                 <h1>Pengaduan Masyarakat</h1>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat quam facere dicta quia voluptate,
-                    minus, sit doloremque ipsum at quis voluptatum numquam neque ea, ex vero quae repellendus. Facilis,
-                    error!</p>
+                <p>Ajukan pengaduan kepada pihak desa terkait masalah umum atau kritik dan saran.</p>
             </div>
-            <div class="alert border border-success alert-dismissible fade show text-success" id="alert_message_aduan"
-                role="alert" style="display: none;">
+            <div class="alert border border-success alert-dismissible fade  text-success" id="alert_message_aduan"
+                role="alert">
                 <?= $message_aduan ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -87,7 +94,8 @@ $db->close();
                         <textarea class="form-control" rows="3" id="aduan" name="aduan"
                             placeholder="Jelaskan apa yang ingin anda adukan!" required></textarea>
                     </div>
-                    <button class="btn btn-primary rounded" type="submit" name="kirim">Kirim</button>
+                    <button class="btn btn-primary rounded" type="submit" name="kirim"
+                        onclick="showMessage()">Kirim</button>
                 </div>
             </form>
             <!-- /form end -->

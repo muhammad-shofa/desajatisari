@@ -11,7 +11,7 @@
             <div></div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active-link" aria-current="page" href="../index.php">Beranda</a>
+                    <a class="nav-link" aria-current="page" href="../index.php">Beranda</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -26,13 +26,13 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Berita</a>
+                    <a class="nav-link" href="../pages/berita.php">Berita</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../pages/pengaduan.php">Pengaduan</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Galeri</a>
+                    <a class="nav-link" href="../pages/galeri.php">Galeri</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Kontak</a>
