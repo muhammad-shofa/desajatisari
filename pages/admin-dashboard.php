@@ -1,6 +1,7 @@
 <?php
 
-include "../service/config.php";
+include "../service/connection.php";
+include "../service/select.php";
 session_start();
 
 // check login and role
@@ -9,16 +10,20 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
 }
 
 // get data users
-$sql_users = "SELECT * FROM users";
-$result_users = $db->query($sql_users);
-$jumlah_users = mysqli_num_rows($result_users);
+$select = new select();
+$sql_get_users = $select->selectTable($table_name = "users", $fields = '*');
+$results_users = $connected->query($sql_get_users);
+$jumlah_users = mysqli_num_rows($results_users);
 
 // get data pengaduan
-$sql_pengaduan = "SELECT * FROM pengaduan";
-$result_pengaduan = $db->query($sql_pengaduan);
-$jumlah_pengaduan = mysqli_num_rows($result_pengaduan);
+$sql_data_pengaduan = $select->selectTable($table_name = "pengaduan", $fields);
+$results_pengaduan = $connected->query($sql_data_pengaduan);
+$jumlah_pengaduan = mysqli_num_rows($results_pengaduan);
 
-$db->close();
+// get data berita
+$sql_berita = $select->selectTable($table_name = "berita", $fields);
+$results_berita = $connected->query($sql_berita);
+$jumlah_berita = mysqli_num_rows($results_berita);
 
 ?>
 
@@ -103,38 +108,7 @@ $db->close();
                         </h2>
                         <!-- Small boxes (Stat box) -->
                         <div class="row">
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-info">
-                                    <div class="inner">
-                                        <h3>
-                                            <?= $jumlah_pengaduan ?>
-                                        </h3>
-                                        <p>Pengaduan</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-bag"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-success">
-                                    <div class="inner">
-                                        <h3>23</h3>
-                                        <p>Berita</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-stats-bars"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
-                            <!-- ./col -->
+                            <!-- col start -->
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-warning">
@@ -151,7 +125,44 @@ $db->close();
                                             class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
-                            <!-- ./col -->
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+                                        <h3>
+                                            <?= $jumlah_pengaduan ?>
+                                        </h3>
+                                        <p>Pengaduan</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-bag"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
+                            <div class="col-lg-3 col-6">
+                                <!-- small box -->
+                                <div class="small-box bg-success">
+                                    <div class="inner">
+                                        <h3>
+                                            <?= $jumlah_berita ?>
+                                        </h3>
+                                        <p>Berita</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-stats-bars"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            <!-- col end -->
+                            <!-- col start -->
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-danger">
@@ -166,7 +177,7 @@ $db->close();
                                             class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
-                            <!-- ./col -->
+                            <!-- col end -->
                         </div>
                         <!-- /.row -->
                     </div>

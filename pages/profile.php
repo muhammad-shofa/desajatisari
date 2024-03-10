@@ -1,6 +1,7 @@
 <?php
 
-include "../service/config.php";
+include "../service/connection.php";
+include "../service/select.php";
 session_start();
 
 // check login
@@ -8,18 +9,19 @@ if ($_SESSION["is_login"] == false) {
     header("location: ../index.php");
 }
 
-// get data user
-$sql_user = "SELECT * FROM users WHERE user_id={$_SESSION['user_id']}";
-$result_user = $db->query($sql_user);
+// $user_id = $_SESSION['user_id'];
+
+// $select = new select();
+$sql = $select->selectTable($table_name = "users", $fields = "*", $condition = "WHERE user_id={$_SESSION['user_id']}");
+$result_user = $connected->query($sql);
 $data_user = $result_user->fetch_assoc();
 
-$user_id = $_SESSION['user_id'];
 
 // get pesan user
-$sql_pesan = "SELECT * FROM pengaduan WHERE user_id={$_SESSION['user_id']}";
-$result_pesan = $db->query($sql_pesan);
+$sql_pesan = $select->selectTable($table_name = "pengaduan", $fields, $condition = "WHERE user_id={$_SESSION['user_id']}");
+$result_pesan = $connected->query($sql_pesan);
 
-$db->close();
+// $db->close();
 
 // logout
 if (isset($_POST["logout"])) {

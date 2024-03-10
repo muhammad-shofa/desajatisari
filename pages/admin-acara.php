@@ -1,30 +1,10 @@
 <?php
 
 include "../service/connection.php";
-include "../service/select.php";
-include "../service/insert.php";
 session_start();
 
-// select
-$sql_berita = $select->selectTable($table_name = "berita");
-$result = $connected->query($sql_berita);
-
-// posting
-if (isset($_POST['posting'])) {
-    $judul = $_POST['judul_berita'];
-    $penulis = $_POST['penulis_berita'];
-    $isi = $_POST['isi_berita'];
-    $tanggal_publish = $_POST['tanggal_publish'];
-    $sql_posting = $insert->selectTable($table_name = "berita", $condition = "(judul, penulis, isi, tanggal_publish) VALUES
-    ('$judul', '$penulis', '$isi', '$tanggal_publish')");
-    $result_posting = $connected->query($sql_posting);
-    if ($result_posting) {
-        header("location: admin-berita.php");
-        exit;
-    }
-}
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -93,12 +73,12 @@ if (isset($_POST['posting'])) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Berita</h1>
+                            <h1 class="m-0">Acara</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Berita</li>
+                                <li class="breadcrumb-item active">Acara</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -111,84 +91,13 @@ if (isset($_POST['posting'])) {
                     <!-- card start -->
                     <div class="card">
                         <div class="card-header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
                                 Tambah Berita
-                            </button>
-                            <!-- modal tambah berita start -->
-                            <div class="modal fade" id="modal-lg">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <form action="admin-berita.php" method="POST">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Tambah Berita Baru</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="card-body">
-                                                    <div class="form-group">
-                                                        <label for="judul_berita">Judul</label>
-                                                        <input type="text" class="form-control" id="judul_berita"
-                                                            name="judul_berita" placeholder="Masukan Judul berita">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="penulis_berita">Penulis</label>
-                                                        <input type="text" class="form-control" id="penulis_berita"
-                                                            name="penulis_berita" value="<?= $_SESSION['username'] ?>"
-                                                            readonly>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="isi_berita">isi</label>
-                                                        <textarea type="text" class="form-control" id="isi_berita"
-                                                            name="isi_berita"
-                                                            placeholder="Masukan content berita"></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="tanggal_publish">Tanggal Publish</label>
-                                                        <input type="date" class="form-control" id="tanggal_publish"
-                                                            name="tanggal_publish">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer justify-content-end">
-                                                <button type="submit" class="btn btn-primary"
-                                                    name="posting">Posting</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- modal tambah berita end -->
+                            </button> -->
                         </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
-                            <!-- card berita start -->
-                            <div class="container container-fluid d-flex justify-content-start flex-wrap">
-                                <?php if ($result) { ?>
-                                    <?php while ($data_berita = $result->fetch_assoc()) { ?>
-                                        <!-- card start -->
-                                        <div class="card m-2" style="width: 18rem">
-                                            <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="link-underline link-underline-opacity-0 text-dark">
-                                                        <?= $data_berita["judul"] ?>
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <!-- card end -->
-                                    <?php } ?>
-                                <?php } ?>
-                            </div>
-                            <!-- card berita end -->
                         </div>
                     </div>
-                    <!-- card end -->
                 </div>
             </section>
         </div>
@@ -232,6 +141,37 @@ if (isset($_POST['posting'])) {
     <!-- jQuery -->
     <!-- Bootstrap 4 -->
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../plugins/jszip/jszip.min.js"></script>
+    <script src="../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 </body>
 
 </html>

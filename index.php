@@ -1,8 +1,7 @@
 <?php
 
-include "service/config.php";
-
-// $session_login = ;
+include "service/connection.php";
+// session_start();
 
 ?>
 
@@ -68,7 +67,7 @@ include "service/config.php";
               <a class="nav-link" href="#">Kontak</a>
             </li>
           </ul>
-          <?php if ($status_login) { ?>
+          <?php if ($_SESSION["is_login"] = false) { ?>
             <a href="pages/profile.php">
               <img class="img-tumbnail rounded-5" width="50px" height="50px" src="img/default.png" alt="">
             </a>

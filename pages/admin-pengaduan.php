@@ -1,6 +1,8 @@
 <?php
 
-include "../service/config.php";
+include "../service/connection.php";
+include "../service/select.php";
+include "../service/update.php";
 session_start();
 
 // $messsage_dibaca = "";
@@ -14,8 +16,8 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
 // sql readed
 if (isset($_POST["tandai-dibaca"])) {
     $pengaduan_id = $_POST["target_pengaduan_id"];
-    $sql_readed = "UPDATE pengaduan SET status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id";
-    $result_readed = $db->query($sql_readed);
+    $sql_readed = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id");
+    $result_readed = $connected->query($sql_readed);
     if ($result_readed) {
         header("location: admin-pengaduan.php");
         exit;
@@ -23,10 +25,8 @@ if (isset($_POST["tandai-dibaca"])) {
 }
 
 // sql pengaduan
-$sql_pengaduan = "SELECT * FROM pengaduan";
-$result_pengaduan = $db->query($sql_pengaduan);
-
-$db->close();
+$sql_pengaduan = $select->selectTable($table_name = "pengaduan", $fields = "*");
+$result_pengaduan = $connected->query($sql_pengaduan);
 
 ?>
 

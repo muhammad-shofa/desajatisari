@@ -1,10 +1,10 @@
 <?php
 
-include "service/config.php";
+include "service/connection.php";
+include "service/select.php";
 session_start();
 
 $message_login = "";
-
 
 if (isset($_POST['masuk'])) {
     $username = $_POST["username"];
@@ -12,10 +12,10 @@ if (isset($_POST['masuk'])) {
 
     $hash_password = hash('sha256', $password);
 
-    $sql_login = "SELECT * FROM users WHERE username='$username' AND password='$hash_password'";
-    $result = $db->query($sql_login);
-    if ($result->num_rows > 0) {
-        $data_user = $result->fetch_assoc();
+    $sql_login = $select->selectTable($table_name = "users", $fields = '*', $condition = "WHERE username='$username' AND password='$hash_password'");
+    $result_user = $connected->query($sql_login);
+    if ($result_user->num_rows > 0) {
+        $data_user = $result_user->fetch_assoc();
         $_SESSION["user_id"] = $data_user["user_id"];
         $_SESSION["username"] = $data_user["username"];
         $_SESSION["role"] = $data_user["role"];
@@ -28,6 +28,24 @@ if (isset($_POST['masuk'])) {
     } else {
         $message_login = "Pastikan anda memasukkan username dan password yang benar!";
     }
+
+    // 
+    // $sql_login = "SELECT * FROM users WHERE username='$username' AND password='$hash_password'";
+    // $result = $db->query($sql_login);
+    // if ($result->num_rows > 0) {
+    //     $data_user = $result->fetch_assoc();
+    //     $_SESSION["user_id"] = $data_user["user_id"];
+    //     $_SESSION["username"] = $data_user["username"];
+    //     $_SESSION["role"] = $data_user["role"];
+    //     $_SESSION["is_login"] = true;
+    //     if ($_SESSION["role"] === "Admin") {
+    //         header("location: pages/admin-dashboard.php");
+    //     } else {
+    //         header("location: pages/profile.php");
+    //     }
+    // } else {
+    //     $message_login = "Pastikan anda memasukkan username dan password yang benar!";
+    // }
 
 }
 

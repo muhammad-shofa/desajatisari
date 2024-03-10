@@ -1,6 +1,7 @@
 <?php
 
-include "service/config.php";
+include "service/connection.php";
+include "service/insert.php";
 
 $status_register = "";
 
@@ -14,13 +15,11 @@ if (isset($_POST["daftar"])) {
 
     $hash_password = hash('sha256', $password);
 
-    $sql_regis = "INSERT INTO users (username, password, nama_lengkap, email, tanggal_lahir, jenis_kelamin) VALUES ('$username', '$hash_password', '$nama_lengkap', '$email', '$tanggal_lahir', '$jenis_kelamin')";
-    $result = $db->query($sql_regis);
+    $sql_regis = $insert->selectTable($table_name = "users", $condition = "(username, password, nama_lengkap, email, tanggal_lahir, jenis_kelamin) VALUES ('$username', '$hash_password', '$nama_lengkap', '$email', '$tanggal_lahir', '$jenis_kelamin')");
+    $result = $connected->query($sql_regis);
     if ($result) {
         $status_register = "<b>Berhasil daftar, silahkan <a href='login.php'>Login!</a></b>";
     }
-
-    $db->close();
 }
 
 
