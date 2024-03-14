@@ -21,8 +21,6 @@ $data_user = $result_user->fetch_assoc();
 $sql_pesan = $select->selectTable($table_name = "pengaduan", $fields, $condition = "WHERE user_id={$_SESSION['user_id']}");
 $result_pesan = $connected->query($sql_pesan);
 
-// $db->close();
-
 // logout
 if (isset($_POST["logout"])) {
     session_unset();

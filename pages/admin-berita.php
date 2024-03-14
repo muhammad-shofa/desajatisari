@@ -5,7 +5,7 @@ include "../service/select.php";
 include "../service/insert.php";
 session_start();
 
-// select
+// get data berita
 $sql_berita = $select->selectTable($table_name = "berita");
 $result = $connected->query($sql_berita);
 
@@ -13,10 +13,41 @@ $result = $connected->query($sql_berita);
 if (isset($_POST['posting'])) {
     $judul = $_POST['judul_berita'];
     $penulis = $_POST['penulis_berita'];
+    // $gambar = $_POST['gambar_berita'];
     $isi = $_POST['isi_berita'];
     $tanggal_publish = $_POST['tanggal_publish'];
-    $sql_posting = $insert->selectTable($table_name = "berita", $condition = "(judul, penulis, isi, tanggal_publish) VALUES
-    ('$judul', '$penulis', '$isi', '$tanggal_publish')");
+
+    // $gambar_fix = addslashes(file_get_contents($_FILES["gambar_berita"]["tmp_name"]));
+    // $sql = "INSERT INTO images (image) VALUES ('$file')";
+
+    //
+    // Lokasi penyimpanan file yang diunggah
+    $target_dir = "../assets/uploads/";
+    // Nama file gambar setelah diunggah
+    $target_file = $target_dir . basename($_FILES["gambar_berita"]["name"]);
+
+    // Periksa apakah file gambar sudah ada
+    if (file_exists($target_file)) {
+        echo "Maaf, file gambar sudah ada.";
+    } else {
+        // Pindahkan file gambar ke lokasi penyimpanan
+        if (move_uploaded_file($_FILES["gambar_berita"]["tmp_name"], $target_file)) {
+            echo "File gambar " . basename($_FILES["gambar_berita"]["name"]) . " berhasil diunggah.";
+            // Simpan lokasi file gambar ke dalam database
+            $gambar_path = $target_file;
+            // Lakukan koneksi ke database dan jalankan query INSERT untuk menyimpan lokasi file gambar ke dalam tabel
+            // Contoh:
+            // $sql_gambar_berita = $insert->selectTable($table_name = "berita", $condition = "(gambar) VALUES ('$gambar_path')");
+            // $connected->query($sql_gambar_berita);
+        } else {
+            echo "Maaf, terjadi kesalahan saat mengunggah file gambar.";
+        }
+    }
+
+    //
+
+    $sql_posting = $insert->selectTable($table_name = "berita", $condition = "(judul, penulis, gambar, isi, tanggal_publish) VALUES
+    ('$judul', '$penulis', '$gambar_path', '$isi', '$tanggal_publish')");
     $result_posting = $connected->query($sql_posting);
     if ($result_posting) {
         header("location: admin-berita.php");
@@ -41,7 +72,7 @@ if (isset($_POST['posting'])) {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Desa Jatisari | Berita</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -118,7 +149,7 @@ if (isset($_POST['posting'])) {
                             <div class="modal fade" id="modal-lg">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <form action="admin-berita.php" method="POST">
+                                        <form action="admin-berita.php" method="POST" enctype="multipart/form-data">
                                             <div class="modal-header">
                                                 <h4 class="modal-title">Tambah Berita Baru</h4>
                                                 <button type="button" class="close" data-dismiss="modal"
@@ -131,7 +162,8 @@ if (isset($_POST['posting'])) {
                                                     <div class="form-group">
                                                         <label for="judul_berita">Judul</label>
                                                         <input type="text" class="form-control" id="judul_berita"
-                                                            name="judul_berita" placeholder="Masukan Judul berita">
+                                                            name="judul_berita" placeholder="Masukan Judul berita"
+                                                            required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="penulis_berita">Penulis</label>
@@ -140,15 +172,20 @@ if (isset($_POST['posting'])) {
                                                             readonly>
                                                     </div>
                                                     <div class="form-group">
+                                                        <label for="gambar_berita">Gambar</label>
+                                                        <input type="file" class="form-control" id="gambar_berita"
+                                                            name="gambar_berita" required>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label for="isi_berita">isi</label>
                                                         <textarea type="text" class="form-control" id="isi_berita"
-                                                            name="isi_berita"
-                                                            placeholder="Masukan content berita"></textarea>
+                                                            name="isi_berita" placeholder="Masukan content berita"
+                                                            required></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="tanggal_publish">Tanggal Publish</label>
                                                         <input type="date" class="form-control" id="tanggal_publish"
-                                                            name="tanggal_publish">
+                                                            name="tanggal_publish" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +209,8 @@ if (isset($_POST['posting'])) {
                                     <?php while ($data_berita = $result->fetch_assoc()) { ?>
                                         <!-- card start -->
                                         <div class="card m-2" style="width: 18rem">
-                                            <img src="../assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                                            <img src="data:image/jpeg;base64,<?= base64_encode($data_berita['gambar']) ?>"
+                                                class="card-img-top" alt="sawah" />
                                             <div class="card-body">
                                                 <h5 class="card-title">
                                                     <a href="#" class="link-underline link-underline-opacity-0 text-dark">

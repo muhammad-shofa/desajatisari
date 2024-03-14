@@ -1,34 +1,12 @@
 <?php
 
-include "../service/config.php";
+include "../service/connection.php";
+include "../service/select.php";
 session_start();
 
-// check login
-if ($_SESSION["is_login"] == false) {
-    header("location: ../index.php");
-}
-
-// get data user
-$sql_user = "SELECT * FROM users WHERE user_id={$_SESSION['user_id']}";
-$result_user = $db->query($sql_user);
-$data_user = $result_user->fetch_assoc();
-
-$user_id = $_SESSION['user_id'];
-
-// get pesan user
-$sql_pesan = "SELECT * FROM pengaduan WHERE user_id={$_SESSION['user_id']}";
-$result_pesan = $db->query($sql_pesan);
-
-$db->close();
-
-// logout
-if (isset($_POST["logout"])) {
-    session_unset();
-    session_destroy();
-    $status_login = false;
-    global $status_login;
-    header("location: ../index.php");
-}
+// get data berita 
+$sql_berita = $select->selectTable($table_name = "berita", $fields = "*");
+$results_berita = $connected->query($sql_berita);
 
 ?>
 
@@ -58,7 +36,38 @@ if (isset($_POST["logout"])) {
         <!-- nav end -->
         <!-- content -->
         <!-- container start -->
-        <div class="container-fluid emp-profile pt-5">
+        <div class="container-fluid">
+            <!-- berita start -->
+            <div class="berita">
+                <div class="container-xl px-2">
+                    <!-- -->
+                    <div class="p-5 mb-10">
+                        <h2 class="line-in-top-start fw-bold" data-aos="fade-up" data-aos-duration="500">
+                            Berita Desa
+                        </h2>
+                        <!-- card berita start -->
+                        <div class="container container-fluid d-flex justify-content-between flex-wrap">
+                            <?php if ($results_berita->num_rows > 0) { ?>
+                                <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
+                                    <div class="card m-2" style="width: 18rem">
+                                        <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <a href="pages/berita.php"
+                                                    class="link-underline link-underline-opacity-0 text-dark">
+                                                    <?= $data_berita["judul"] ?>
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        </div>
+                        <!-- card berita end -->
+                    </div>
+                </div>
+            </div>
+            <!-- berita start -->
         </div>
     </div>
 </body>

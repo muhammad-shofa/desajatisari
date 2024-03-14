@@ -1,7 +1,17 @@
 <?php
 
 include "service/connection.php";
-// session_start();
+include "service/select.php";
+session_start();
+
+$session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><img class="img-tumbnail rounded-5" width="50px" height="50px" src="assets/img/default.png" alt=""></a>' : '<div>
+<a href="login.php" class="btn btn-primary">Masuk</a>
+<a href="register.php" class="btn btn-outline-primary">Daftar</a>
+</div>';
+
+// get data berita
+$sql_berita = $select->selectTable($table_name = "berita", $fields = "*");
+$results_berita = $connected->query($sql_berita);
 
 ?>
 
@@ -55,28 +65,21 @@ include "service/connection.php";
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Berita</a>
+              <a class="nav-link" href="pages/berita.php">Berita</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./pages/pengaduan.php">Pengaduan</a>
+              <a class="nav-link" href="pages/pengaduan.php">Pengaduan</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Galeri</a>
+              <a class="nav-link" href="pages/galeri.php">Galeri</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Kontak</a>
             </li>
           </ul>
-          <?php if ($_SESSION["is_login"] = false) { ?>
-            <a href="pages/profile.php">
-              <img class="img-tumbnail rounded-5" width="50px" height="50px" src="img/default.png" alt="">
-            </a>
-          <?php } else { ?>
-            <div>
-              <a href="login.php" class="btn btn-primary">Masuk</a>
-              <a href="register.php" class="btn btn-outline-primary">Daftar</a>
-            </div>
-          <?php } ?>
+          <div>
+            <?= $session_login ?>
+          </div>
         </div>
       </div>
     </nav>
@@ -336,46 +339,20 @@ include "service/connection.php";
           </h2>
           <!-- card berita start -->
           <div class="container container-fluid d-flex justify-content-between flex-wrap">
-            <div class="card m-2" style="width: 18rem">
-              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#" class="link-underline link-underline-opacity-0 text-dark">
-                    Petani di Desa Jatisari Panen 10.000 Ton beras
-                  </a>
-                </h5>
-              </div>
-            </div>
-            <div class="card m-2" style="width: 18rem">
-              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#" class="link-underline link-underline-opacity-0 text-dark">
-                    Petani di Desa Jatisari Panen 10.000 Ton beras
-                  </a>
-                </h5>
-              </div>
-            </div>
-            <div class="card m-2" style="width: 18rem">
-              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#" class="link-underline link-underline-opacity-0 text-dark">
-                    Petani di Desa Jatisari Panen 10.000 Ton beras
-                  </a>
-                </h5>
-              </div>
-            </div>
-            <div class="card m-2" style="width: 18rem">
-              <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-              <div class="card-body">
-                <h5 class="card-title">
-                  <a href="#" class="link-underline link-underline-opacity-0 text-dark">
-                    Petani di Desa Jatisari Panen 10.000 Ton beras
-                  </a>
-                </h5>
-              </div>
-            </div>
+            <?php if ($results_berita->num_rows > 0) { ?>
+              <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
+                <div class="card m-2" style="width: 18rem">
+                  <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="pages/berita.php" class="link-underline link-underline-opacity-0 text-dark">
+                        <?= $data_berita["judul"] ?>
+                      </a>
+                    </h5>
+                  </div>
+                </div>
+              <?php } ?>
+            <?php } ?>
           </div>
           <!-- card berita end -->
         </div>

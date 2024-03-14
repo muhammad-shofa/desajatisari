@@ -1,37 +1,60 @@
 <?php
 
-include "../service/config.php";
+include "../service/connection.php";
+include "../service/insert.php";
 session_start();
 
 $message_aduan = "";
 
-// check login
-if ($_SESSION["is_login"] == false) {
-    header("location: ../index.php");
-    exit;
-}
+// check session login
+$session_username = isset($_SESSION['username']) ? $_SESSION['username'] : "Masuk terlebih dahulu";
 
 // kirim aduan
 if (isset($_POST["kirim"])) {
-    $pengirim = $_POST["pengirim"];
-    $user_id = $_SESSION['user_id'];
-    $judul = $_POST["judul"];
-    $aduan = $_POST["aduan"];
-    $sql_kirim_aduan = "INSERT INTO pengaduan (pengirim, user_id, judul, aduan) VALUES ('$pengirim', '$user_id', '$judul', '$aduan')";
-    $result = $db->query($sql_kirim_aduan);
-    if ($result) { ?>
+    if ($_SESSION["is_login"] == false) { ?>
+        <div class="modal fade" id="modal-masuk-dulu" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">
+                            Masuk Terlebih Dahulu
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Mohon untuk <a href="../login.php">masuk</a> terlebih dahulu untuk melakukan pengaduan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
-            function showMessage() {
-                let alert_message_aduan = document.getElementById('alert_message_aduan');
-                alert_message_aduan.classList.add("show");
-            }
+            const modalMasukDulu = document.getElementById("modal-masuk-dulu");
+            const modalToggle = document.getElementById("modal-toggle");
+            // modalMasukDulu.addEventListener('shown.bs.modal', () => {
+            //     myInput.focus()
+            // });
+            modalMasukDulu.show(modalToggle);
         </script>
-        <?php
+    <?php } else {
+        $pengirim = htmlspecialchars($_POST["pengirim"]);
+        $user_id = htmlspecialchars($_SESSION['user_id']);
+        $judul = htmlspecialchars($_POST["judul"]);
+        $aduan = htmlspecialchars($_POST["aduan"]);
+        $sql_kirim_aduan = $insert->selectTable($table_name = "pengaduan", $condition = "(pengirim, user_id, judul, aduan) VALUES ('$pengirim', '$user_id', '$judul', '$aduan')");
+        $result = $connected->query($sql_kirim_aduan);
+        //  if ($result) { 
+        //  <script>
+        //     function showMessage() {
+        //         let alert_message_aduan = document.getElementById('alert_message_aduan');
+        //         alert_message_aduan.classList.add("show");
+        //     }
+        // </script> 
         $message_aduan = "Pesan anda berhasil terkirim, silahkan cek status aduan anda pada bagian pesan di <a
      href='profile.php'>profile</a>";
-    } ?>
-<?php }
-$db->close(); ?>
+    }
+}
+?>
 
 <!-- <script>
     function showMessage() {
@@ -81,7 +104,7 @@ $db->close(); ?>
                     <div class="mb-3">
                         <label class="form-label" for="pengirim">Pengirim</label>
                         <input type="text" name="pengirim" id="pengirim" class="form-control" placeholder=""
-                            value="<?= $_SESSION["username"] ?>" readonly />
+                            value="<?= $session_username ?>" readonly />
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="judul">Judul</label>
@@ -94,11 +117,14 @@ $db->close(); ?>
                         <textarea class="form-control" rows="3" id="aduan" name="aduan"
                             placeholder="Jelaskan apa yang ingin anda adukan!" required></textarea>
                     </div>
-                    <button class="btn btn-primary rounded" type="submit" name="kirim"
-                        onclick="showMessage()">Kirim</button>
+                    <button class="btn btn-primary rounded" type="submit" name="kirim" id="modal-toggle"
+                        onclick="showMessage()" data-bs-toggle="modal" data-bs-target="#modal-masuk-dulu">Kirim</button>
                 </div>
             </form>
             <!-- /form end -->
+            <!-- Modal start -->
+
+            <!-- Modal end -->
         </div>
     </div>
     <!-- main container end -->

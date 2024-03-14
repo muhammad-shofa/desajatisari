@@ -196,10 +196,6 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                                                 <?= $data_pengaduan['pengaduan_id'] ?>
                                                             </p>
                                                             <p>
-                                                                Pengirim :<br>
-                                                                <?= $data_pengaduan['pengirim'] ?>
-                                                            </p>
-                                                            <p>
                                                                 Judul :<br>
                                                                 <?= $data_pengaduan['judul'] ?>
                                                             </p>

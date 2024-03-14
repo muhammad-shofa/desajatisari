@@ -1,6 +1,7 @@
 <?php
 
 include "../service/connection.php";
+include "../service/select.php";
 session_start();
 
 ?>
@@ -21,7 +22,7 @@ session_start();
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Desa Jatisari | Acara</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -91,11 +92,78 @@ session_start();
                     <!-- card start -->
                     <div class="card">
                         <div class="card-header">
-                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
-                                Tambah Berita
-                            </button> -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                                Tambah Acara
+                            </button>
+                            <!-- modal tambah berita start -->
+                            <div class="modal fade" id="modal-lg">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <form action="admin-berita.php" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Tambah Berita Baru</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label for="judul_berita">Judul</label>
+                                                        <input type="text" class="form-control" id="judul_berita"
+                                                            name="judul_berita" placeholder="Masukan Judul berita"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="penulis_berita">Penulis</label>
+                                                        <input type="text" class="form-control" id="penulis_berita"
+                                                            name="penulis_berita" value="<?= $_SESSION['username'] ?>"
+                                                            readonly>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="gambar_berita">Gambar</label>
+                                                        <input type="file" class="form-control" id="gambar_berita"
+                                                            name="gambar_berita" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="isi_berita">isi</label>
+                                                        <textarea type="text" class="form-control" id="isi_berita"
+                                                            name="isi_berita" placeholder="Masukan content berita"
+                                                            required></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="tanggal_publish">Tanggal Publish</label>
+                                                        <input type="date" class="form-control" id="tanggal_publish"
+                                                            name="tanggal_publish" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-end">
+                                                <button type="submit" class="btn btn-primary"
+                                                    name="posting">Posting</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- modal tambah berita end -->
                         </div>
                         <div class="card-body">
+                            <div class="container container-fluid d-flex justify-content-start flex-wrap">
+                                <div class="card">
+                                    <img class="card-img-top" src="../assets/img/farmer-2.jpg" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="#" class="link-underline link-underline-opacity-0 text-dark">
+                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

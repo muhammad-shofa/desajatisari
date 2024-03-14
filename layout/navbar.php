@@ -1,3 +1,10 @@
+<?php
+$session_login = isset($_SESSION['is_login']) ? '<a href="profile.php"><img class="img-tumbnail rounded-5" width="50px" height="50px" src="../assets/img/default.png" alt=""></a>' : '<div>
+<a href="../login.php" class="btn btn-primary">Masuk</a>
+<a href="../register.php" class="btn btn-outline-primary">Daftar</a>
+</div>';
+?>
+
 <nav class="navbar fixed-top navbar-expand-lg border-bottom shadow-sm bg-body-tertiary">
     <div class="container-fluid py-2" id="nav-container">
         <span>
@@ -38,10 +45,9 @@
                     <a class="nav-link" href="#">Kontak</a>
                 </li>
             </ul>
-            <a href="profile.php">
-                <img class="img-tumbnail rounded-5" width="50px" height="50px" src="../assets/img/default.png" alt="">
-            </a>
-
+            <div>
+                <?= $session_login ?>
+            </div>
         </div>
     </div>
 </nav>

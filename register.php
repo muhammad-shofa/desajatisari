@@ -6,12 +6,12 @@ include "service/insert.php";
 $status_register = "";
 
 if (isset($_POST["daftar"])) {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $nama_lengkap = $_POST["nama_lengkap"];
-    $email = $_POST["email"];
-    $tanggal_lahir = $_POST["tanggal_lahir"];
-    $jenis_kelamin = $_POST["jenis_kelamin"];
+    $username = htmlspecialchars($_POST["username"]);
+    $password = htmlspecialchars($_POST["password"]);
+    $nama_lengkap = htmlspecialchars($_POST["nama_lengkap"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $tanggal_lahir = htmlspecialchars($_POST["tanggal_lahir"]);
+    $jenis_kelamin = htmlspecialchars($_POST["jenis_kelamin"]);
 
     $hash_password = hash('sha256', $password);
 
