@@ -1,5 +1,5 @@
 <?php
-$session_login = isset($_SESSION['is_login']) ? '<a href="profile.php"><img class="img-tumbnail rounded-5" width="50px" height="50px" src="../assets/img/default.png" alt=""></a>' : '<div>
+$session_login = isset ($_SESSION['is_login']) ? '<a href="profile.php"><img class="img-tumbnail rounded-5" width="50px" height="50px" src="../assets/img/default.png" alt=""></a>' : '<div>
 <a href="../login.php" class="btn btn-primary">Masuk</a>
 <a href="../register.php" class="btn btn-outline-primary">Daftar</a>
 </div>';

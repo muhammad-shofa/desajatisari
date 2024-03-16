@@ -22,7 +22,7 @@ $sql_pesan = $select->selectTable($table_name = "pengaduan", $fields, $condition
 $result_pesan = $connected->query($sql_pesan);
 
 // logout
-if (isset($_POST["logout"])) {
+if (isset ($_POST["logout"])) {
     session_unset();
     session_destroy();
     $status_login = false;
@@ -65,8 +65,6 @@ if (isset($_POST["logout"])) {
             height: 200px;
             border-radius: 50%;
             border: 2px solid #ffc107;
-            /* width: 70%;
-            height: 50%; */
         }
 
         .profile-img .file {

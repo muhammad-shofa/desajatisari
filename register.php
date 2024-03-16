@@ -5,7 +5,11 @@ include "service/insert.php";
 
 $status_register = "";
 
-if (isset($_POST["daftar"])) {
+// cek login
+isset ($_SESSION['is_login']) ? header("location: index.php") : "";
+
+// insert daftar
+if (isset ($_POST["daftar"])) {
     $username = htmlspecialchars($_POST["username"]);
     $password = htmlspecialchars($_POST["password"]);
     $nama_lengkap = htmlspecialchars($_POST["nama_lengkap"]);
@@ -18,10 +22,9 @@ if (isset($_POST["daftar"])) {
     $sql_regis = $insert->selectTable($table_name = "users", $condition = "(username, password, nama_lengkap, email, tanggal_lahir, jenis_kelamin) VALUES ('$username', '$hash_password', '$nama_lengkap', '$email', '$tanggal_lahir', '$jenis_kelamin')");
     $result = $connected->query($sql_regis);
     if ($result) {
-        $status_register = "<b>Berhasil daftar, silahkan <a href='login.php'>Login!</a></b>";
+        $status_register = "<b>Berhasil mendaftar, silahkan <a href='login.php'>Login!</a></b>";
     }
 }
-
 
 ?>
 
@@ -39,22 +42,81 @@ if (isset($_POST["daftar"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <title>Daftar | Desa Jatisari</title>
+    <style>
+        body {
+            background-image: url("assets/img/farmer-2.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        nav span a b {
+            color: #ffc107;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
+        <!-- nav start -->
+        <nav class="navbar fixed-top navbar-expand-lg border-bottom shadow-sm bg-body-tertiary">
+            <div class="container-fluid py-2" id="nav-container">
+                <span>
+                    <a class="navbar-brand fs-3" href="index.php"><b>DesaJatisari</b></a>
+                </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                    <div></div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="index.php">Beranda</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Profil Desa
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Visi & Misi</a></li>
+                                <li><a class="dropdown-item" href="#">Sejarah Desa</a></li>
+                                <li><a class="dropdown-item" href="#">Aset Desa</a></li>
+                                <li><a class="dropdown-item" href="#">Peta Desa</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/berita.php">Berita</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/pengaduan.php">Pengaduan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/galeri.php">Galeri</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Kontak</a>
+                        </li>
+                    </ul>
+                    <div>
+                        <a href="login.php" class="btn btn-primary">Masuk</a>
+                        <a href="register.php" class="btn btn-outline-primary">Daftar</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- nav end -->
         <div class="row justify-content-center">
             <div class="col-xl-4 col-lg-5 col-sm-6 col-12">
-                <form action="register.php" method="POST" class="my-5">
-                    <div class="border rounded-2 p-4 mt-5">
+                <form action="register.php" method="POST" class="my-5" style="padding-top: 6px;">
+                    <div class="border rounded-2 p-4 mt-5 bg-light">
                         <div class="login-form">
                             <a href="index.php" class="mb-4 d-flex">
                                 Desa Jatisari
-                                <!-- <img src="./imgimages/logo.svg" class="img-fluid login-logo"
-                                    alt="Mars Admin Dashboard" /> -->
                             </a>
                             <h5 class="fw-bold mb-3">Daftar untuk mengakses semua fitur.</h5>
-                            <p>
+                            <p class="text-success">
                                 <?= $status_register ?>
                             </p>
                             <div class="mb-3">
@@ -79,8 +141,7 @@ if (isset($_POST["daftar"])) {
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control"
-                                    placeholder="" />
+                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
@@ -93,9 +154,9 @@ if (isset($_POST["daftar"])) {
 
                             <div class="d-flex align-items-center justify-content-between mt-3">
                                 <div class="form-check m-0">
-                                    <input class="form-check-input" type="checkbox" value="" id="termsConditions" />
-                                    <label class="form-check-label" for="termsConditions">I agree to the terms and
-                                        conditions</label>
+                                    <input class="form-check-input" type="checkbox" id="s&k" required />
+                                    <label class="form-check-label" for="s&k">Saya menyetujui <a
+                                            href="pages/s&k.php">syarat dan ketentuan</a></label>
                                 </div>
                             </div>
                             <div class="d-grid py-3 mt-3">
@@ -113,7 +174,6 @@ if (isset($_POST["daftar"])) {
                     </div>
                 </form>
                 <!-- /form end -->
-
             </div>
         </div>
     </div>

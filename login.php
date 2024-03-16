@@ -6,9 +6,9 @@ session_start();
 
 $message_login = "";
 
-if (isset($_POST['masuk'])) {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+if (isset ($_POST['masuk'])) {
+    $username = htmlspecialchars($_POST["username"]);
+    $password = htmlspecialchars($_POST["password"]);
 
     $hash_password = hash('sha256', $password);
 
@@ -28,25 +28,6 @@ if (isset($_POST['masuk'])) {
     } else {
         $message_login = "Pastikan anda memasukkan username dan password yang benar!";
     }
-
-    // 
-    // $sql_login = "SELECT * FROM users WHERE username='$username' AND password='$hash_password'";
-    // $result = $db->query($sql_login);
-    // if ($result->num_rows > 0) {
-    //     $data_user = $result->fetch_assoc();
-    //     $_SESSION["user_id"] = $data_user["user_id"];
-    //     $_SESSION["username"] = $data_user["username"];
-    //     $_SESSION["role"] = $data_user["role"];
-    //     $_SESSION["is_login"] = true;
-    //     if ($_SESSION["role"] === "Admin") {
-    //         header("location: pages/admin-dashboard.php");
-    //     } else {
-    //         header("location: pages/profile.php");
-    //     }
-    // } else {
-    //     $message_login = "Pastikan anda memasukkan username dan password yang benar!";
-    // }
-
 }
 
 ?>
@@ -65,18 +46,78 @@ if (isset($_POST['masuk'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <title>Daftar | Desa Jatisari</title>
+    <style>
+        body {
+            background-image: url("assets/img/farmer-2.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        nav span a b {
+            color: #ffc107;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
         <!-- nav start -->
-        <?php include "layout/navbar.php" ?>
+        <!-- nav start -->
+        <nav class="navbar fixed-top navbar-expand-lg border-bottom shadow-sm bg-body-tertiary">
+            <div class="container-fluid py-2" id="nav-container">
+                <span>
+                    <a class="navbar-brand fs-3" href="index.php"><b>DesaJatisari</b></a>
+                </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+                    <div></div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="index.php">Beranda</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Profil Desa
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Visi & Misi</a></li>
+                                <li><a class="dropdown-item" href="#">Sejarah Desa</a></li>
+                                <li><a class="dropdown-item" href="#">Aset Desa</a></li>
+                                <li><a class="dropdown-item" href="#">Peta Desa</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/berita.php">Berita</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/pengaduan.php">Pengaduan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/galeri.php">Galeri</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Kontak</a>
+                        </li>
+                    </ul>
+                    <div>
+                        <a href="login.php" class="btn btn-primary">Masuk</a>
+                        <a href="register.php" class="btn btn-outline-primary">Daftar</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- nav end -->
         <!-- nav end -->
         <div class="row justify-content-center" style="padding-top: 50px;">
             <div class="col-xl-4 col-lg-5 col-sm-6 col-12">
-                <!-- fomr start -->
+                <!-- form start -->
                 <form action="login.php" method="POST" class="my-5">
-                    <div class="border rounded-2 p-4 mt-5">
+                    <div class="border rounded-2 p-4 mt-5 bg-light">
                         <div class="login-form">
                             <a href="index.html" class="mb-4 d-flex">
                                 Desa Jatisari
@@ -84,7 +125,7 @@ if (isset($_POST['masuk'])) {
                                     alt="Mars Admin Dashboard" /> -->
                             </a>
                             <h5 class="fw-bold mb-3">Masuk</h5>
-                            <p>
+                            <p class="text-danger">
                                 <?= $message_login ?>
                             </p>
                             <div class="mb-3">

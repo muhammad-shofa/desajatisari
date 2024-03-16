@@ -27,10 +27,10 @@
             </ul>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="../index.php" class="nav-link">Berita</a>
+            <a href="../pages/berita.php" class="nav-link">Berita</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="../index.php" class="nav-link">Pengaduan</a>
+            <a href="../pages/pengaduan.php" class="nav-link">Pengaduan</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="../index.php" class="nav-link">Galeri</a>
@@ -40,25 +40,3 @@
         </li>
     </ul>
 </nav>
-
-<!-- 
-
-
-
-                <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
-                        <p>
-                            Gallery
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/kanban.html" class="nav-link">
-                        <i class="nav-icon fas fa-columns"></i>
-                        <p>
-                            Kanban Board
-                        </p>
-                    </a>
-                </li>
- -->
