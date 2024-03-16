@@ -5,9 +5,10 @@ include "../service/insert.php";
 session_start();
 
 $message_aduan = "";
-$cek_login = isset ($_SESSION['is_login']);
 
 // check session login
+$cek_login = isset ($_SESSION['is_login']);
+// check session username
 $session_username = isset ($_SESSION['username']) ? $_SESSION['username'] : "Masuk terlebih dahulu";
 
 // kirim aduan
@@ -57,9 +58,10 @@ if (isset ($_POST["kirim"])) {
                 <h1>Pengaduan Masyarakat</h1>
                 <p>Ajukan pengaduan kepada pihak desa terkait masalah umum atau kritik dan saran.</p>
             </div>
-            <div class="alert border border-success alert-dismissible fade  text-success" role="alert">
-                <?= $message_aduan ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div>
+                <p class="text-success text-center">
+                    <?= $message_aduan ?>
+                </p>
             </div>
             <!-- form start -->
             <form action="pengaduan.php" method="POST" class="my-5">
@@ -109,7 +111,6 @@ if (isset ($_POST["kirim"])) {
         </div>
     </div>
     <!-- main container end -->
-
 
     <!-- js -->
     <script src="./js/main.js"></script>

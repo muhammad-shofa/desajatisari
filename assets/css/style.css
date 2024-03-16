@@ -22,11 +22,6 @@ h6 {
   font-family: "montserrat";
 }
 
-
-nav span a {
-  color: var(--accent-yellow);
-}
-
 nav #nav-container {
   background-color: var(--primary);
 }
