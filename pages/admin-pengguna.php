@@ -5,31 +5,15 @@ include "../service/select.php";
 include "../service/update.php";
 session_start();
 
-// $messsage_dibaca = "";
-
 // check login and role
 if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
     header("location: ../index.php");
     exit;
 }
 
-// sql readed
-if (isset ($_POST["tandai-dibaca"])) {
-    $pengaduan_id = $_POST["target_pengaduan_id"];
-    $sql_readed = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id");
-    $result_readed = $connected->query($sql_readed);
-}
-
-// sql unread
-if (isset ($_POST['tandai-belum-dibaca'])) {
-    $pengaduan_id = $_POST["target_pengaduan_id"];
-    $sql_unread = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Belum' WHERE pengaduan_id=$pengaduan_id");
-    $result_unread = $connected->query($sql_unread);
-}
-
-// sql pengaduan
-$sql_pengaduan = $select->selectTable($table_name = "pengaduan", $fields = "*");
-$result_pengaduan = $connected->query($sql_pengaduan);
+// get data users
+$sql_users = $select->selectTable($table_name = "users", $fields = "*");
+$result_users = $connected->query($sql_users);
 
 ?>
 
@@ -96,12 +80,12 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
+                            <h1 class="m-0">Dashboard Pengguna</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Pengaduan</li>
+                                <li class="breadcrumb-item"><a href="admin-dashboard.php">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Pengguna</li>
                             </ol>
                         </div><!-- /.col -->
                     </div><!-- /.row -->
@@ -112,11 +96,10 @@ $result_pengaduan = $connected->query($sql_pengaduan);
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <!-- Container starts -->
-                    <!-- pengaduan start -->
+                    <!-- pengguna start -->
                     <div class="card">
                         <div class="card-header">
-                            <h3>Pengaduan</h3>
+                            <h3>Pengguna</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -124,64 +107,51 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Pengirim</th>
-                                        <th>Judul</th>
-                                        <th>Aduan</th>
-                                        <th>Status Dibaca</th>
-                                        <th>Tanggal Pengaduan</th>
+                                        <th>Username</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Email</th>
+                                        <th>Tanggal Lahir</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Role</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if ($result_pengaduan->num_rows > 0) { ?>
-                                        <?php while ($data_pengaduan = $result_pengaduan->fetch_assoc()) { ?>
+                                    <?php if ($result_users->num_rows > 0) { ?>
+                                        <?php while ($data_user = $result_users->fetch_assoc()) { ?>
                                             <tr>
                                                 <td>
-                                                    <?= $data_pengaduan["pengaduan_id"] ?>
+                                                    <?= $data_user["user_id"] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $data_pengaduan["pengirim"] ?>
+                                                    <?= $data_user["username"] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $data_pengaduan["judul"] ?>
+                                                    <?= $data_user["nama_lengkap"] ?>
                                                 </td>
                                                 <td>
-                                                    <?php if (strlen($data_pengaduan["aduan"]) >= 20) {
-                                                        $new_string = substr($data_pengaduan["aduan"], 0, 20) . "...";
-                                                        echo $new_string;
-                                                    } else {
-                                                        $new_string = substr($data_pengaduan["aduan"], 0, 20) . "...";
-                                                        echo $new_string;
-                                                    }
-                                                    ?>
+                                                    <?= $data_user["email"] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $data_pengaduan["status_dibaca"] ?>
+                                                    <?= $data_user["tanggal_lahir"] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $data_pengaduan["tanggal_pengaduan"] ?>
+                                                    <?= $data_user["jenis_kelamin"] ?>
                                                 </td>
                                                 <td>
-                                                    <?php if ($data_pengaduan["status_dibaca"] == "Belum") { ?>
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                            data-target="#modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
-                                                            Baca
-                                                        </button>
-                                                    <?php } else { ?>
-                                                        <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                                            data-target="#modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
-                                                            Detail
-                                                        </button>
-                                                    <?php } ?>
+                                                    <?= $data_user["role"] ?>
+                                                </td>
+                                                <td>
+                                                    
                                                 </td>
                                             </tr>
                                             <!-- modal start -->
-                                            <div class="modal fade" id="modal-pengaduan-<?= $data_pengaduan["pengaduan_id"] ?>">
+                                            <div class="modal fade" id="modal-pengaduan-<?= $data_user["user_id"] ?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title">
-                                                                <?= $data_pengaduan["judul"] ?>
+                                                                <?= $data_user["nama_lengkap"] ?>
                                                             </h4>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
@@ -191,42 +161,42 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                                         <div class="modal-body">
                                                             <p>
                                                                 ID :<br>
-                                                                <?= $data_pengaduan['pengaduan_id'] ?>
+                                                                <?= $data_user['user_id'] ?>
                                                             </p>
                                                             <p>
-                                                                Judul :<br>
-                                                                <?= $data_pengaduan['judul'] ?>
+                                                                nama_lengkap :<br>
+                                                                <?= $data_user['nama_lengkap'] ?>
                                                             </p>
                                                             <p>
-                                                                Pengirim :<br>
-                                                                <?= $data_pengaduan['pengirim'] ?>
+                                                                username :<br>
+                                                                <?= $data_user['username'] ?>
                                                             </p>
                                                             <p>
                                                                 Teks Aduan :<br>
-                                                                <?= $data_pengaduan["aduan"] ?>
+                                                                <?= $data_user["aduan"] ?>
                                                             </p>
                                                             <p>
                                                                 Status dibaca :<br>
-                                                                <?php if ($data_pengaduan["status_dibaca"] == 'Sudah') { ?>
+                                                                <?php if ($data_user["status_dibaca"] == 'Sudah') { ?>
                                                                     <b class="text-success">
-                                                                        <?= $data_pengaduan["status_dibaca"] ?>
+                                                                        <?= $data_user["status_dibaca"] ?>
                                                                     </b>
                                                                 <?php } else { ?>
                                                                     <b class="text-warning">
-                                                                        <?= $data_pengaduan["status_dibaca"] ?>
+                                                                        <?= $data_user["status_dibaca"] ?>
                                                                     </b>
                                                                 <?php } ?>
                                                             </p>
                                                             <p>
                                                                 Tanggal Pengaduan :<br>
-                                                                <?= $data_pengaduan['tanggal_pengaduan'] ?>
+                                                                <?= $data_user['tanggal_pengaduan'] ?>
                                                             </p>
                                                         </div>
                                                         <div class="modal-footer justify-content-end">
                                                             <form action="admin-pengaduan.php" method="POST">
-                                                                <input type="hidden" name="target_pengaduan_id"
-                                                                    value="<?= $data_pengaduan['pengaduan_id'] ?>">
-                                                                <?php if ($data_pengaduan['status_dibaca'] == 'Sudah') { ?>
+                                                                <input type="hidden" name="target_user_id"
+                                                                    value="<?= $data_user['user_id'] ?>">
+                                                                <?php if ($data_user['status_dibaca'] == 'Sudah') { ?>
                                                                     <button type="submit" class="btn btn-primary"
                                                                         name="tandai-belum-dibaca" value>Tandai Belum
                                                                         Dibaca</button>
@@ -235,11 +205,6 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                                                         name="tandai-dibaca" value>Tandai Dibaca</button>
                                                                 <?php } ?>
                                                             </form>
-                                                            <!--  -->
-                                                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                                data-target="#modal-confirm">
-                                                                Tandai Dibaca
-                                                            </button> -->
                                                         </div>
                                                     </div>
                                                     <!-- /.modal-content -->
@@ -247,37 +212,6 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                                 <!-- /.modal-dialog -->
                                             </div>
                                             <!-- Modal end -->
-                                            <!-- modal confirm start -->
-                                            <!-- modal start -->
-                                            <!-- <div class="modal fade" id="modal-confirm">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">
-                                                            </h4>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Apakah kamu yakin ingin menandai pesan ini sebagai Sudah Dibaca?
-                                                            </p>
-                                                        </div>
-                                                        <form action="admin-pengaduan.php" method="POST">
-                                                            <div class="modal-footer justify-content-end">
-                                                                <input type="hidden" name="target_pengaduan_id"
-                                                                    value="">
-                                                                <button type="button" class="btn btn-primary"
-                                                                    data-dismiss="modal">Tidak</button>
-                                                                <button type="submit" class="btn btn-primary"
-                                                                    name="tandai-dibaca" value>Iya</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <!-- modal confirm end -->
                                         <?php } ?>
                                     <?php } ?>
                                 </tbody>
@@ -286,7 +220,7 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                         </div>
                         <!-- /.card-body -->
                     </div>
-                    <!-- pengaduan end -->
+                    <!-- pengguna end -->
                 </div>
                 <!-- /.container-fluid -->
             </section>

@@ -25,6 +25,9 @@ $sql_berita = $select->selectTable($table_name = "berita", $fields);
 $results_berita = $connected->query($sql_berita);
 $jumlah_berita = mysqli_num_rows($results_berita);
 
+// get data acara
+
+
 ?>
 
 
@@ -34,7 +37,7 @@ $jumlah_berita = mysqli_num_rows($results_berita);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Desa Jatisari | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -133,7 +136,7 @@ $jumlah_berita = mysqli_num_rows($results_berita);
                                         <p>Pengaduan</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-bag"></i>
+                                        <i class="nav-icon fas fa-exclamation"></i>
                                     </div>
                                     <a href="#" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
@@ -151,7 +154,7 @@ $jumlah_berita = mysqli_num_rows($results_berita);
                                         <p>Berita</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-stats-bars"></i>
+                                        <i class="nav-icon fas fa-newspaper"></i>
                                     </div>
                                     <a href="#" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
@@ -163,11 +166,13 @@ $jumlah_berita = mysqli_num_rows($results_berita);
                                 <!-- small box -->
                                 <div class="small-box bg-danger">
                                     <div class="inner">
-                                        <h3>65</h3>
+                                        <h3>
+                                            <?= $jumlah_acara ?>
+                                        </h3>
                                         <p>Acara</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-pie-graph"></i>
+                                        <i class="nav-icon fas fa-tree"></i>
                                     </div>
                                     <a href="#" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
@@ -184,13 +189,7 @@ $jumlah_berita = mysqli_num_rows($results_berita);
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 3.2.0
-            </div>
-        </footer>
+     
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
