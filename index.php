@@ -163,15 +163,6 @@ $results_berita = $connected->query($sql_berita);
           </div>
         </div>
       </div>
-      <!-- img -->
-      <!-- <div class="float-end img-tumbnail">
-            <img
-              src="assets/img/ex-village-3.jpg"
-              class="d-block img-tumbnail"
-              alt="Admin Dashboards"
-            />
-          </div>
-        </div> -->
       <!-- container hero end -->
       <!-- waves -->
       <div class="waves-btm-hero">
@@ -192,7 +183,7 @@ $results_berita = $connected->query($sql_berita);
         <div class="p-5 mb-10">
           <div class="row flex-lg-row align-items-center">
             <div class="col-lg-6 mb-5" data-aos="fade-up" data-aos-duration="500">
-              <h2 class="line-in-top-start fw-bold">Profile Desa</h2>
+              <h2 class="fw-bold">Profile Desa</h2>
               <p class="mb-4">
                 Desa Jatisari adalah desa yang terletak di Kecamatan Senori
                 Jawa Timur. Desa Jatisari di kenal karena banyaknya pondok
@@ -258,7 +249,7 @@ $results_berita = $connected->query($sql_berita);
       <!-- container service start -->
       <div class="container-xl px-2">
         <div class="p-5 text-center text-light">
-          <h2 class="line-in-top-center" data-aos="fade-up" data-aos-duration="500">
+          <h2 data-aos="fade-up" data-aos-duration="500">
             Apa saja yang ada di <b>Desa Jatisari?</b>
           </h2>
           <div class="col-lg-6 mx-auto" data-aos="fade-up" data-aos-duration="650">
@@ -331,10 +322,11 @@ $results_berita = $connected->query($sql_berita);
     <!-- service end -->
     <!-- berita start -->
     <div class="berita">
+      <!-- container berita start -->
       <div class="container-xl px-2">
-        <!-- -->
+        <!-- card berita start -->
         <div class="p-5 mb-10">
-          <h2 class="line-in-top-start fw-bold" data-aos="fade-up" data-aos-duration="500">
+          <h2 class="fw-bold" data-aos="fade-up" data-aos-duration="500">
             Berita Desa
           </h2>
           <!-- card berita start -->
@@ -357,10 +349,54 @@ $results_berita = $connected->query($sql_berita);
           <!-- card berita end -->
         </div>
       </div>
+      <!-- container berita end -->
     </div>
-    <!-- berita start -->
+    <!-- berita end -->
+
+    <!-- waves -->
+    <svg class="position-absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#ffffff" fill-opacity="1"
+        d="M0,128L40,122.7C80,117,160,107,240,133.3C320,160,400,224,480,229.3C560,235,640,181,720,176C800,171,880,213,960,229.3C1040,245,1120,235,1200,192C1280,149,1360,75,1400,37.3L1440,0L1440,0L1400,0C1360,0,1280,0,1200,0C1120,0,1040,0,960,0C880,0,800,0,720,0C640,0,560,0,480,0C400,0,320,0,240,0C160,0,80,0,40,0L0,0Z">
+      </path>
+    </svg>
+
+    <!-- testimoni start -->
+    <div class="testimoni">
+      <!-- container testimoni start -->
+      <div class="container-xl px-2">
+        <div class="p-5 mb-10">
+          <h2 class="fw-bold text-light text-center" data-aos="fade-up" data-aos-duration="500">
+            Apa Yang Orang - Orang Katakan tentang Desa Jatisari?
+          </h2>
+          <!-- card berita start -->
+          <div class="container container-fluid d-flex justify-content-between flex-wrap">
+            <?php if ($results_berita->num_rows > 0) { ?>
+              <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
+                <div class="card m-2" style="width: 18rem">
+                  <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="pages/berita.php" class="link-underline link-underline-opacity-0 text-dark">
+                        <?= $data_berita["judul"] ?>
+                      </a>
+                    </h5>
+                  </div>
+                </div>
+              <?php } ?>
+            <?php } ?>
+          </div>
+          <!-- card berita end -->
+        </div>
+      </div>
+      <!-- container testimoni end -->
+    </div>
+    <!-- testimoni end -->
+
+
   </div>
   <!-- main container end -->
+
+
 
 
   <!-- js -->
