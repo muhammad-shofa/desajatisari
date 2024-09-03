@@ -20,26 +20,12 @@ $session_login = isset ($_SESSION['is_login']) ? '<a href="profile.php"><img cla
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="../index.php">Beranda</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Profil Desa
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Visi & Misi</a></li>
-                        <li><a class="dropdown-item" href="#">Sejarah Desa</a></li>
-                        <li><a class="dropdown-item" href="#">Aset Desa</a></li>
-                        <li><a class="dropdown-item" href="#">Peta Desa</a></li>
-                    </ul>
-                </li>
+            
                 <li class="nav-item">
                     <a class="nav-link" href="../pages/berita.php">Berita</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../pages/pengaduan.php">Pengaduan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../pages/galeri.php">Galeri</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Kontak</a>

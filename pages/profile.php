@@ -208,10 +208,6 @@ if (isset ($_POST["logout"])) {
                                         role="tab" aria-controls="one" aria-selected="true">Data Diri</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="tab-two" data-bs-toggle="tab" href="#pencapaian" role="tab"
-                                        aria-controls="two" aria-selected="false">Pencapaian</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
                                     <a class="nav-link" id="tab-three" data-bs-toggle="tab" href="#pesan" role="tab"
                                         aria-controls="three" aria-selected="false">Pesan</a>
                                 </li>

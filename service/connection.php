@@ -28,6 +28,3 @@ class database
 
 $db = new database();
 $connected = $db->connected();
-
-
-?>

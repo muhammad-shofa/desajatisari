@@ -14,14 +14,14 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
 }
 
 // sql readed
-if (isset ($_POST["tandai-dibaca"])) {
+if (isset($_POST["tandai-dibaca"])) {
     $pengaduan_id = $_POST["target_pengaduan_id"];
     $sql_readed = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id");
     $result_readed = $connected->query($sql_readed);
 }
 
 // sql unread
-if (isset ($_POST['tandai-belum-dibaca'])) {
+if (isset($_POST['tandai-belum-dibaca'])) {
     $pengaduan_id = $_POST["target_pengaduan_id"];
     $sql_unread = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Belum' WHERE pengaduan_id=$pengaduan_id");
     $result_unread = $connected->query($sql_unread);
@@ -236,10 +236,6 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                                                 <?php } ?>
                                                             </form>
                                                             <!--  -->
-                                                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                                data-target="#modal-confirm">
-                                                                Tandai Dibaca
-                                                            </button> -->
                                                         </div>
                                                     </div>
                                                     <!-- /.modal-content -->
@@ -247,37 +243,6 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                                 <!-- /.modal-dialog -->
                                             </div>
                                             <!-- Modal end -->
-                                            <!-- modal confirm start -->
-                                            <!-- modal start -->
-                                            <!-- <div class="modal fade" id="modal-confirm">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">
-                                                            </h4>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Apakah kamu yakin ingin menandai pesan ini sebagai Sudah Dibaca?
-                                                            </p>
-                                                        </div>
-                                                        <form action="admin-pengaduan.php" method="POST">
-                                                            <div class="modal-footer justify-content-end">
-                                                                <input type="hidden" name="target_pengaduan_id"
-                                                                    value="">
-                                                                <button type="button" class="btn btn-primary"
-                                                                    data-dismiss="modal">Tidak</button>
-                                                                <button type="submit" class="btn btn-primary"
-                                                                    name="tandai-dibaca" value>Iya</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <!-- modal confirm end -->
                                         <?php } ?>
                                     <?php } ?>
                                 </tbody>
@@ -353,6 +318,8 @@ $result_pengaduan = $connected->query($sql_pengaduan);
     <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- jQuery -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <!-- Page specific script -->
     <script>
         $(function () {
@@ -370,6 +337,40 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                 "responsive": true,
             });
         });
+
+        $(document).ready(function () {
+            var table = $('#users_table').DataTable({
+                "ajax": "../service/ajax.php",
+                "columns": [{
+                    "data": "no"
+                },
+                {
+                    "data": "name"
+                },
+                {
+                    "data": "username"
+                },
+                {
+                    "data": "email"
+                },
+                {
+                    "data": "no_hp"
+                },
+                {
+                    "data": "role"
+                },
+                {
+                    "data": "borrowed"
+                },
+                {
+                    "data": "action",
+                    "orderable": true,
+                    "searchable": true
+                }
+                ]
+            });
+        });
+
     </script>
 </body>
 

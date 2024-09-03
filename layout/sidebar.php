@@ -56,14 +56,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="admin-galeri.php" class="nav-link">
-                        <i class="nav-icon fas fa-image"></i>
-                        <p>
-                            Galeri
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="admin-pengguna.php" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
