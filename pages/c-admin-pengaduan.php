@@ -14,22 +14,22 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
 }
 
 // sql readed
-if (isset($_POST["tandai-dibaca"])) {
-    $pengaduan_id = $_POST["target_pengaduan_id"];
-    $sql_readed = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id");
-    $result_readed = $connected->query($sql_readed);
-}
+// if (isset($_POST["tandai-dibaca"])) {
+//     $pengaduan_id = $_POST["target_pengaduan_id"];
+//     $sql_readed = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Sudah' WHERE pengaduan_id = $pengaduan_id");
+//     $result_readed = $connected->query($sql_readed);
+// }
 
 // sql unread
-if (isset($_POST['tandai-belum-dibaca'])) {
-    $pengaduan_id = $_POST["target_pengaduan_id"];
-    $sql_unread = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Belum' WHERE pengaduan_id=$pengaduan_id");
-    $result_unread = $connected->query($sql_unread);
-}
+// if (isset($_POST['tandai-belum-dibaca'])) {
+//     $pengaduan_id = $_POST["target_pengaduan_id"];
+//     $sql_unread = $update->selectTable($table_name = "pengaduan", $condition = "status_dibaca='Belum' WHERE pengaduan_id=$pengaduan_id");
+//     $result_unread = $connected->query($sql_unread);
+// }
 
 // sql pengaduan
-$sql_pengaduan = $select->selectTable($table_name = "pengaduan", $fields = "*");
-$result_pengaduan = $connected->query($sql_pengaduan);
+// $sql_pengaduan = $select->selectTable($table_name = "pengaduan", $fields = "*");
+// $result_pengaduan = $connected->query($sql_pengaduan);
 
 ?>
 
@@ -150,34 +150,35 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                                     </div>
                                     <div class="modal-body">
                                         <!-- Form untuk mengedit siswa -->
-                                        <form id="formEdit">
-                                            <input type="hidden" id="detail_id" name="user_id">
+                                        <form id="formDetail">
+                                            <input type="hidden" id="detail_user_id" name="user_id">
+                                            <input type="hidden" id="detail_pengaduan_id" name="pengaduan_id">
                                             <div class="form-group">
                                                 <label for="detail_pengirim">Pengirim:</label>
                                                 <input type="text" class="form-control" id="detail_pengirim"
-                                                    name="pengirim" disabled>
+                                                    name="pengirim" readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="detail_judul">Judul:</label>
                                                 <input type="text" class="form-control" id="detail_judul" name="judul"
-                                                    disabled>
+                                                    readonly>
                                             </div>
                                             <div class="form-group">
                                                 <label for="detail_aduan">Aduan</label>
                                                 <textarea class="form-control" placeholder="Leave a comment here"
                                                     id="detail_aduan" style="height: 200px; resize: none !important;"
-                                                    name="aduan" disabled></textarea>
+                                                    name="aduan" readonly></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="detail_status_dibaca">Status Dibaca:</label>
                                                 <input type="text" class="form-control" id="detail_status_dibaca"
-                                                    name="status_dibaca" disabled>
+                                                    name="status_dibaca" readonly>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="detail_tanggal_pengaduan">Tanggal Pengaduan:</label>
                                                 <input type="text" class="form-control" id="detail_tanggal_pengaduan"
-                                                    name="tanggal_pengaduan" disabled>
+                                                    name="tanggal_pengaduan" readonly>
                                             </div>
                                         </form>
                                     </div>
@@ -308,21 +309,57 @@ $result_pengaduan = $connected->query($sql_pengaduan);
                 ]
             });
 
-            // Menampilkan modal detail pengaduan
-            $('#pengaduan_table').on('click', '.detail', function () {
-                let id = $(this).data('user_id');
+            // Tandai dibaca
+            $('#pengaduan_table').on('click', '.baca', function () {
+                let pengaduan_id = $(this).data('pengaduan_id');
                 $.ajax({
-                    url: '../service/ajax/ajax-pengaduan.php?user_id=' + id,
+                    url: '../service/ajax/ajax-pengaduan.php?pengaduan_id=' + pengaduan_id,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        $('#detail_id').val(data.id);
+                        $('#detail_user_id').val(data.user_id);
+                        $('#detail_pengaduan_id').val(data.pengaduan_id);
                         $('#detail_pengirim').val(data.pengirim);
                         $('#detail_judul').val(data.judul);
                         $('#detail_aduan').val(data.aduan);
                         $('#detail_status_dibaca').val(data.status_dibaca);
                         $('#detail_tanggal_pengaduan').val(data.tanggal_pengaduan);
                         $('#modalDetail').modal('show');
+                    }
+                });
+            });
+
+            // Menampilkan modal detail pengaduan
+            $('#pengaduan_table').on('click', '.detail', function () {
+                let pengaduan_id = $(this).data('pengaduan_id');
+                $.ajax({
+                    url: '../service/ajax/ajax-pengaduan.php?pengaduan_id=' + pengaduan_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#detail_user_id').val(data.user_id);
+                        $('#detail_pengaduan_id').val(data.pengaduan_id);
+                        $('#detail_pengirim').val(data.pengirim);
+                        $('#detail_judul').val(data.judul);
+                        $('#detail_aduan').val(data.aduan);
+                        $('#detail_status_dibaca').val(data.status_dibaca);
+                        $('#detail_tanggal_pengaduan').val(data.tanggal_pengaduan);
+                        $('#modalDetail').modal('show');
+                    }
+                });
+            });
+
+            // simpan tandai dibaca
+            $('#tandaiDibaca').click(function () {
+                var data = $('#formDetail').serialize();
+                $.ajax({
+                    url: '../service/ajax/ajax-pengaduan.php',
+                    type: 'PUT',
+                    data: data,
+                    success: function (response) {
+                        $('#modalDetail').modal('hide');
+                        table.ajax.reload();
+                        alert(response);
                     }
                 });
             });
