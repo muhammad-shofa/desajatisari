@@ -2,6 +2,7 @@
 include "../connection.php";
 include "../select.php";
 include "../insert.php";
+include "../update.php";
 session_start();
 
 
@@ -24,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         while ($row = $result->fetch_assoc()) {
             $i++;
             $row['no'] = $i;
-            // $row['action'] = '<button type="button" class="detail btn btn-secondary" data-user_id="' . $row['user_id'] . '" data-toggle="modal">Detail</button>';
             $row['action'] = "";
             if ($row["status_dibaca"] == "Belum") {
                 $row['action'] = '
@@ -46,17 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 } elseif ($_SERVER["REQUEST_METHOD"] == "PUT") {
     parse_str(file_get_contents("php://input"), $data);
-
+    
+    // ambil status dibaca lalu lakukan pengecekan
     $status_dibaca = $data["status_dibaca"];
-    // var_dump('Sebelum diupdate : ' . $status_dibaca);
     // unread & read
     if ($status_dibaca == "Sudah") {
         $pengaduan_id = $data["pengaduan_id"];
-        var_dump($pengaduan_id);
 
         $status_dibaca_new = "Belum";
 
-        $stmt = $connected->prepare("UPDATE pengaduan SET status_dibaca = ? WHERE pengaduan_id = ?");
+        $stmt = $connected->prepare($update->selectTable($tableName = "pengaduan", $condition = "status_dibaca = ? WHERE pengaduan_id = ?"));
         $stmt->bind_param("si", $status_dibaca_new, $pengaduan_id);
 
         if ($stmt->execute()) {
@@ -68,11 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->close();
     } else {
         $pengaduan_id = $data["pengaduan_id"];
-        var_dump($pengaduan_id);
-
         $status_dibaca_new = "Sudah";
 
-        $stmt = $connected->prepare("UPDATE pengaduan SET status_dibaca = ? WHERE pengaduan_id = ?");
+        $stmt = $connected->prepare($update->selectTable($tableName = "pengaduan", $condition = "status_dibaca = ? WHERE pengaduan_id = ?"));
         $stmt->bind_param("si", $status_dibaca_new, $pengaduan_id);
 
         if ($stmt->execute()) {
@@ -83,6 +80,5 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         $stmt->close();
     }
-
 
 }

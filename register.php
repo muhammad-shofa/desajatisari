@@ -6,10 +6,10 @@ include "service/insert.php";
 $status_register = "";
 
 // cek login
-isset ($_SESSION['is_login']) ? header("location: index.php") : "";
+isset($_SESSION['is_login']) ? header("location: index.php") : "";
 
 // insert daftar
-if (isset ($_POST["daftar"])) {
+if (isset($_POST["daftar"])) {
     $username = htmlspecialchars($_POST["username"]);
     $password = htmlspecialchars($_POST["password"]);
     $nama_lengkap = htmlspecialchars($_POST["nama_lengkap"]);
@@ -81,9 +81,6 @@ if (isset ($_POST["daftar"])) {
                             <a class="nav-link" href="pages/pengaduan.php">Pengaduan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/galeri.php">Galeri</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#">Kontak</a>
                         </li>
                     </ul>
@@ -129,7 +126,8 @@ if (isset ($_POST["daftar"])) {
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required />
+                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control"
+                                    required />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>

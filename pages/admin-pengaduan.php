@@ -128,7 +128,7 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Form untuk mengedit siswa -->
+                                        <!-- Form untuk menampilkan data pengaduan pada modal -->
                                         <form id="formDetail">
                                             <input type="hidden" id="detail_user_id" name="user_id">
                                             <input type="hidden" id="detail_pengaduan_id" name="pengaduan_id">
@@ -238,27 +238,8 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
     <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-
-    <!-- jQuery -->
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <!-- Page specific script -->
     <script>
-        // $(function () {
-        //     $("#pengaduan_table").DataTable({
-        //         "responsive": true, "lengthChange": false, "autoWidth": false,
-        //         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        //     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        //     $('#example2').DataTable({
-        //         "paging": true,
-        //         "lengthChange": false,
-        //         "searching": false,
-        //         "ordering": true,
-        //         "info": true,
-        //         "autoWidth": false,
-        //         "responsive": true,
-        //     });
-        // });
-
         $(document).ready(function () {
             var table = $('#pengaduan_table').DataTable({
                 "ajax": "../service/ajax/ajax-pengaduan.php",

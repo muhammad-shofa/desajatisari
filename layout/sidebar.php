@@ -48,14 +48,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="admin-acara.php" class="nav-link">
-                        <i class="nav-icon fas fa-tree"></i>
-                        <p>
-                            Acara
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="admin-pengguna.php" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>

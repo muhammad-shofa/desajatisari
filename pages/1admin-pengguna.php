@@ -11,6 +11,10 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
     exit;
 }
 
+// get data users
+$sql_users = $select->selectTable($table_name = "users", $fields = "*");
+$result_users = $connected->query($sql_users);
+
 ?>
 
 <!DOCTYPE html>
@@ -99,10 +103,10 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="pengguna_table" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>ID</th>
                                         <th>Username</th>
                                         <th>Nama Lengkap</th>
                                         <th>Email</th>
@@ -113,75 +117,108 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php if ($result_users->num_rows > 0) { ?>
+                                        <?php while ($data_user = $result_users->fetch_assoc()) { ?>
+                                            <tr>
+                                                <td>
+                                                    <?= $data_user["user_id"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_user["username"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_user["nama_lengkap"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_user["email"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_user["tanggal_lahir"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_user["jenis_kelamin"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_user["role"] ?>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <!-- modal start -->
+                                            <div class="modal fade" id="modal-pengaduan-<?= $data_user["user_id"] ?>">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">
+                                                                <?= $data_user["nama_lengkap"] ?>
+                                                            </h4>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>
+                                                                ID :<br>
+                                                                <?= $data_user['user_id'] ?>
+                                                            </p>
+                                                            <p>
+                                                                nama_lengkap :<br>
+                                                                <?= $data_user['nama_lengkap'] ?>
+                                                            </p>
+                                                            <p>
+                                                                username :<br>
+                                                                <?= $data_user['username'] ?>
+                                                            </p>
+                                                            <p>
+                                                                Teks Aduan :<br>
+                                                                <?= $data_user["aduan"] ?>
+                                                            </p>
+                                                            <p>
+                                                                Status dibaca :<br>
+                                                                <?php if ($data_user["status_dibaca"] == 'Sudah') { ?>
+                                                                    <b class="text-success">
+                                                                        <?= $data_user["status_dibaca"] ?>
+                                                                    </b>
+                                                                <?php } else { ?>
+                                                                    <b class="text-warning">
+                                                                        <?= $data_user["status_dibaca"] ?>
+                                                                    </b>
+                                                                <?php } ?>
+                                                            </p>
+                                                            <p>
+                                                                Tanggal Pengaduan :<br>
+                                                                <?= $data_user['tanggal_pengaduan'] ?>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-end">
+                                                            <form action="admin-pengaduan.php" method="POST">
+                                                                <input type="hidden" name="target_user_id"
+                                                                    value="<?= $data_user['user_id'] ?>">
+                                                                <?php if ($data_user['status_dibaca'] == 'Sudah') { ?>
+                                                                    <button type="submit" class="btn btn-primary"
+                                                                        name="tandai-belum-dibaca" value>Tandai Belum
+                                                                        Dibaca</button>
+                                                                <?php } else { ?>
+                                                                    <button type="submit" class="btn btn-primary"
+                                                                        name="tandai-dibaca" value>Tandai Dibaca</button>
+                                                                <?php } ?>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+                                            <!-- Modal end -->
+                                        <?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
 
                         </div>
                         <!-- /.card-body -->
-
-                        <!-- Modal Edit User -->
-                        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog"
-                            aria-labelledby="modalEditLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalEditLabel">Edit Siswa</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <!-- Form untuk menampilkan data user pada modal -->
-                                        <form id="formEdit">
-                                            <input type="hidden" id="edit_user_id" name="user_id">
-                                            <div class="form-group">
-                                                <label for="edit_username">Username:</label>
-                                                <input type="text" class="form-control" id="edit_username"
-                                                    name="username">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="edit_nama_lengkap">Nama Lengkap:</label>
-                                                <input type="text" class="form-control" id="edit_nama_lengkap"
-                                                    name="nama_lengkap">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="edit_email">Email:</label>
-                                                <input type="email" class="form-control" id="edit_email" name="email">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="edit_tanggal_lahir">Tanggal Lahir:</label>
-                                                <input type="text" class="form-control" id="edit_tanggal_lahir"
-                                                    name="tanggal_lahir">
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="edit_jenis_kelamin">Jenis Kelamin:</label>
-                                                <select class="form-control select2" name="jenis_kelamin"
-                                                    id="edit_jenis_kelamin" style="width: 100%;">
-                                                    <option value="Laki-Laki">Laki-Laki</option>
-                                                    <option value="Perempuan">Perempuan</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="edit_role">Role:</label>
-                                                <select class="form-control select2" name="role" id="edit_role"
-                                                    style="width: 100%;">
-                                                    <option value="Admin">Admin</option>
-                                                    <option value="Petugas">Petugas</option>
-                                                    <option value="User">User</option>
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="simpanEdit">Simpan</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal Edit User End -->
-
                     </div>
                     <!-- pengguna end -->
                 </div>
@@ -250,79 +287,23 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
     <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <!-- font awesome -->
-    <script src="https://kit.fontawesome.com/e91d75df7f.js" crossorigin="anonymous"></script>
     <!-- Page specific script -->
     <script>
-        $(document).ready(function () {
-            var table = $('#pengguna_table').DataTable({
-                "ajax": "../service/ajax/ajax-pengguna.php",
-                "columns": [{
-                    "data": "no"
-                },
-                {
-                    "data": "username"
-                },
-                {
-                    "data": "nama_lengkap"
-                },
-                {
-                    "data": "email"
-                },
-                {
-                    "data": "tanggal_lahir"
-                },
-                {
-                    "data": "jenis_kelamin"
-                },
-                {
-                    "data": "role"
-                },
-                {
-                    "data": "action",
-                    "orderable": true,
-                    "searchable": true
-                }
-                ]
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
             });
-
-            // Menampilkan modal Edit User
-            $('#pengguna_table').on('click', '.edit', function () {
-                let user_id = $(this).data('user_id');
-                $.ajax({
-                    url: '../service/ajax/ajax-pengguna.php?user_id=' + user_id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#edit_user_id').val(data.user_id);
-                        $('#edit_username').val(data.username);
-                        $('#edit_nama_lengkap').val(data.nama_lengkap);
-                        $('#edit_email').val(data.email);
-                        $('#edit_tanggal_lahir').val(data.tanggal_lahir);
-                        $('#edit_jenis_kelamin').val(data.jenis_kelamin);
-                        $('#edit_role').val(data.role);
-                        $('#modalEdit').modal('show');
-                    }
-                });
-            });
-
-            // Simpan edit user
-            $('#simpanEdit').click(function () {
-                var data = $('#formEdit').serialize();
-                $.ajax({
-                    url: '../service/ajax/ajax-pengguna.php',
-                    type: 'PUT',
-                    data: data,
-                    success: function (response) {
-                        $('#modalEdit').modal('hide');
-                        table.ajax.reload();
-                        alert(response);
-                    }
-                });
-            });
-
         });
-
     </script>
 </body>
 

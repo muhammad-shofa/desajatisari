@@ -86,9 +86,6 @@ if (isset($_POST['masuk'])) {
                             <a class="nav-link" href="pages/pengaduan.php">Pengaduan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="pages/galeri.php">Galeri</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="#">Kontak</a>
                         </li>
                     </ul>
