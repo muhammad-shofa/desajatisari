@@ -3,6 +3,7 @@ include "../connection.php";
 include "../select.php";
 include "../insert.php";
 include "../update.php";
+include "../delete.php";
 session_start();
 
 
@@ -65,6 +66,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo "Berhasil mengedit pengguna";
     } else {
         echo "Gagal mengedit pengguna " . $stmt->error;
+    }
+
+    $stmt->close();
+} elseif ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+    // Delete user
+    parse_str(file_get_contents("php://input"), $data);
+    $user_id = $data["user_id"];
+
+    // $stmt = $connected->prepare("DELETE FROM users WHERE user_id = ?");
+    $stmt = $connected->prepare($delete->select_table($tableName = "users", $condition = "WHERE user_id = ?"));
+    $stmt->bind_param("i", $user_id);
+
+    if ($stmt->execute()) {
+        echo "Berhasil menghapus";
+    } else {
+        echo "Gagal menghapus: " . $stmt->error;
     }
 
     $stmt->close();

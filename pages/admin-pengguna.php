@@ -321,6 +321,24 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                 });
             });
 
+            // Delete User
+            $('#pengguna_table').on('click', '.delete', function () {
+                var user_id = $(this).data('user_id');
+                if (confirm('Kamu yakin ingin menghapus pengguna ini?')) {
+                    $.ajax({
+                        url: '../service/ajax/ajax-pengguna.php',
+                        type: 'DELETE',
+                        data: {
+                            user_id: user_id
+                        },
+                        success: function (response) {
+                            table.ajax.reload();
+                            alert(response);
+                        }
+                    });
+                }
+            });
+
         });
 
     </script>
