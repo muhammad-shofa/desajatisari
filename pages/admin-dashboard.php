@@ -25,12 +25,6 @@ $sql_berita = $select->selectTable($table_name = "berita", $fields);
 $results_berita = $connected->query($sql_berita);
 $jumlah_berita = mysqli_num_rows($results_berita);
 
-// get data acara
-$sql_acara = $select->selectTable($table_name = "acara", $fields);
-$results_acara = $connected->query($sql_acara);
-$jumlah_acara = mysqli_num_rows($results_acara);
-
-
 ?>
 
 

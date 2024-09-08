@@ -28,7 +28,7 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>Desa Jatisari | Pengaduan</title>
+    <title>Desa Jatisari | Pengguna</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -99,6 +99,15 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+
+                            <!-- btn trigger modal tambah pengguna -->
+                            <button type="button" class="btn btn-primary my-2" data-toggle="modal"
+                                data-target="#modalTambah">
+                                Tambah Pengguna
+                            </button>
+
+                            <!-- <button class="tambahPengguna btn btn-primary my-2">Tambah Pengguna</button> -->
+                            <!-- <button type="button" class="edit btn btn-primary" data-user_id="' . $row['user_id'] . '" data-toggle="modal">Tambah</button> -->
                             <table id="pengguna_table" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
@@ -119,13 +128,80 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                         </div>
                         <!-- /.card-body -->
 
+                        <!-- Modal tambah pengguna -->
+                        <div class="modal fade" id="modalTambah">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Tambah Pengguna</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="formTambah">
+                                            <!-- <input type="hidden" id="user_id" name="user_id"> -->
+                                            <div class="form-group">
+                                                <label for="username">Username:</label>
+                                                <input type="text" class="form-control" id="username" name="username">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password">Password:</label>
+                                                <input type="password" class="form-control" id="password"
+                                                    name="password">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nama_lengkap">Nama Lengkap:</label>
+                                                <input type="text" class="form-control" id="nama_lengkap"
+                                                    name="nama_lengkap">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email:</label>
+                                                <input type="email" class="form-control" id="email" name="email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tanggal_lahir">Tanggal Lahir:</label>
+                                                <input type="date" class="form-control" id="tanggal_lahir"
+                                                    name="tanggal_lahir">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="jenis_kelamin">Jenis Kelamin:</label>
+                                                <select class="form-control select2" name="jenis_kelamin"
+                                                    id="jenis_kelamin" style="width: 100%;">
+                                                    <option value="Laki-Laki">Laki-Laki</option>
+                                                    <option value="Perempuan">Perempuan</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="role">Role:</label>
+                                                <select class="form-control select2" name="role" id="role"
+                                                    style="width: 100%;">
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Petugas">Petugas</option>
+                                                    <option value="User">User</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-primary" id="simpanTambah">Tambah</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- Modal tambah pengguna End -->
+
                         <!-- Modal Edit User -->
                         <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog"
                             aria-labelledby="modalEditLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalEditLabel">Edit Siswa</h5>
+                                        <h5 class="modal-title" id="modalEditLabel">Edit Pengguna</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -284,6 +360,22 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                     "searchable": true
                 }
                 ]
+            });
+
+            // Tambah pengguna
+            $('#simpanTambah').click(function () {
+                var data = $('#formTambah').serialize();
+                $.ajax({
+                    url: '../service/ajax/ajax-pengguna.php',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        $('#modalTambah').modal('hide');
+                        table.ajax.reload();
+                        $('#formTambah')[0].reset();
+                        alert(response);
+                    }
+                });
             });
 
             // Menampilkan modal Edit User
