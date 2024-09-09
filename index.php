@@ -72,34 +72,6 @@ $results_berita = $connected->query($sql_berita);
     <!-- nav end -->
     <!-- hero start -->
     <div class="hero">
-      <!-- bg auto carousel start -->
-      <!-- <div
-            id="carouselExampleSlidesOnly"
-            class="carousel slide"
-            data-bs-ride="carousel"
-          >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="assets/img/farmer-1.jpg" class="d-block w-100" alt="..." />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="assets/img/ex-village-1.jpg"
-                  class="d-block w-100"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="assets/img/ex-village-2.jpg"
-                  class="d-block w-100"
-                  alt="..."
-                />
-              </div>
-            </div>
-          </div> -->
-      <!-- bg auto carousel end -->
-
       <!-- container hero start -->
       <div class="container-xl px-2 d-flex flex-wrap" style="padding-top: 200px">
         <div class="text-light" style="max-width: 600px">

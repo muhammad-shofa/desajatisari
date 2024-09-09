@@ -79,7 +79,7 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="admin-dashboard.php">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Pengaduan</li>
                             </ol>
                         </div><!-- /.col -->
@@ -99,21 +99,23 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="pengaduan_table" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Pengirim</th>
-                                        <th>Judul</th>
-                                        <th>Aduan</th>
-                                        <th>Status Dibaca</th>
-                                        <th>Tanggal Pengaduan</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="pengaduan_table" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Pengirim</th>
+                                            <th>Judul</th>
+                                            <th>Aduan</th>
+                                            <th>Status Dibaca</th>
+                                            <th>Tanggal Pengaduan</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <!-- Modal detail pengaduan start -->
@@ -266,7 +268,8 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                     "orderable": true,
                     "searchable": true
                 }
-                ]
+                ],
+                "responsive": true
             });
 
             // Tandai dibaca

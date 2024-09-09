@@ -1,58 +1,10 @@
 <?php
-
-include "../service/connection.php";
-include "../service/select.php";
-include "../service/insert.php";
 session_start();
 
-// get data berita
-$sql_berita = $select->selectTable($table_name = "berita");
-$result = $connected->query($sql_berita);
-
-// posting
-if (isset($_POST['posting'])) {
-    $judul = $_POST['judul_berita'];
-    $penulis = $_POST['penulis_berita'];
-    // $gambar = $_POST['gambar_berita'];
-    $isi = $_POST['isi_berita'];
-    $tanggal_publish = $_POST['tanggal_publish'];
-
-    // $gambar_fix = addslashes(file_get_contents($_FILES["gambar_berita"]["tmp_name"]));
-    // $sql = "INSERT INTO images (image) VALUES ('$file')";
-
-    //
-    // Lokasi penyimpanan file yang diunggah
-    $target_dir = "../assets/uploads/";
-    // Nama file gambar setelah diunggah
-    $target_file = $target_dir . basename($_FILES["gambar_berita"]["name"]);
-
-    // Periksa apakah file gambar sudah ada
-    if (file_exists($target_file)) {
-        echo "Maaf, file gambar sudah ada.";
-    } else {
-        // Pindahkan file gambar ke lokasi penyimpanan
-        if (move_uploaded_file($_FILES["gambar_berita"]["tmp_name"], $target_file)) {
-            echo "File gambar " . basename($_FILES["gambar_berita"]["name"]) . " berhasil diunggah.";
-            // Simpan lokasi file gambar ke dalam database
-            $gambar_path = $target_file;
-            // Lakukan koneksi ke database dan jalankan query INSERT untuk menyimpan lokasi file gambar ke dalam tabel
-            // Contoh:
-            // $sql_gambar_berita = $insert->selectTable($table_name = "berita", $condition = "(gambar) VALUES ('$gambar_path')");
-            // $connected->query($sql_gambar_berita);
-        } else {
-            echo "Maaf, terjadi kesalahan saat mengunggah file gambar.";
-        }
-    }
-
-    //
-
-    $sql_posting = $insert->selectTable($table_name = "berita", $condition = "(judul, penulis, gambar, isi, tanggal_publish) VALUES
-    ('$judul', '$penulis', '$gambar_path', '$isi', '$tanggal_publish')");
-    $result_posting = $connected->query($sql_posting);
-    if ($result_posting) {
-        header("location: admin-berita.php");
-        exit;
-    }
+// check login and role
+if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
+    header("location: ../index.php");
+    exit;
 }
 
 ?>
@@ -72,7 +24,7 @@ if (isset($_POST['posting'])) {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <title>Desa Jatisari | Berita</title>
+    <title>Desa Jatisari | berita</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -108,6 +60,7 @@ if (isset($_POST['posting'])) {
         <?php include "../layout/navbar-dashboard.php" ?>
         <!-- navbar end -->
 
+
         <!-- sidebar start -->
         <?php include "../layout/sidebar.php" ?>
         <!-- sidebar end -->
@@ -119,11 +72,11 @@ if (isset($_POST['posting'])) {
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Berita</h1>
+                            <h1 class="m-0">Dashboard berita</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="admin-dashboard.php">Dashboard</a></li>
                                 <li class="breadcrumb-item active">Berita</li>
                             </ol>
                         </div><!-- /.col -->
@@ -131,101 +84,145 @@ if (isset($_POST['posting'])) {
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <!-- card start -->
+                    <!-- berita start -->
                     <div class="card">
                         <div class="card-header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
-                                Tambah Berita
-                            </button>
-                            <!-- modal tambah berita start -->
-                            <div class="modal fade" id="modal-lg">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <form action="admin-berita.php" method="POST" enctype="multipart/form-data">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Tambah Berita Baru</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="card-body">
-                                                    <div class="form-group">
-                                                        <label for="judul_berita">Judul</label>
-                                                        <input type="text" class="form-control" id="judul_berita"
-                                                            name="judul_berita" placeholder="Masukan Judul berita"
-                                                            required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="penulis_berita">Penulis</label>
-                                                        <input type="text" class="form-control" id="penulis_berita"
-                                                            name="penulis_berita" value="<?= $_SESSION['username'] ?>"
-                                                            readonly>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="gambar_berita">Gambar</label>
-                                                        <input type="file" class="form-control" id="gambar_berita"
-                                                            name="gambar_berita" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="isi_berita">isi</label>
-                                                        <textarea type="text" class="form-control" id="isi_berita"
-                                                            name="isi_berita" placeholder="Masukan content berita"
-                                                            required></textarea>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="tanggal_publish">Tanggal Publish</label>
-                                                        <input type="date" class="form-control" id="tanggal_publish"
-                                                            name="tanggal_publish" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer justify-content-end">
-                                                <button type="submit" class="btn btn-primary"
-                                                    name="posting">Posting</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- modal tambah berita end -->
+                            <h3>Berita</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <!-- card berita start -->
-                            <div class="container container-fluid d-flex justify-content-start flex-wrap">
-                                <?php if ($result) { ?>
-                                    <?php while ($data_berita = $result->fetch_assoc()) { ?>
-                                        <!-- card start -->
-                                        <div class="card m-2" style="width: 18rem">
-                                            <img src="data:image/jpeg;base64,<?= base64_encode($data_berita['gambar']) ?>"
-                                                class="card-img-top" alt="sawah" />
-                                            <div class="card-body">
-                                                <h5 class="card-title">
-                                                    <a href="#" class="link-underline link-underline-opacity-0 text-dark">
-                                                        <?= $data_berita["judul"] ?>
-                                                    </a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <!-- card end -->
-                                    <?php } ?>
-                                <?php } ?>
+
+                            <!-- btn trigger modal tambah berita -->
+                            <button type="button" class="btn btn-primary my-2" data-toggle="modal"
+                                data-target="#modalTambah">
+                                Tambah Berita
+                            </button>
+
+                            <div class="table-responsive">
+                                <table id="berita_table" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Judul</th>
+                                            <th>Penulis</th>
+                                            <th>Isi</th>
+                                            <th>Tanggal Publish</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- card berita end -->
                         </div>
+                        <!-- /.card-body -->
+
+                        <!-- Modal tambah berita -->
+                        <div class="modal fade" id="modalTambah">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Tambah berita</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="formTambah">
+                                            <div class="form-group">
+                                                <label for="judul">Judul:</label>
+                                                <input type="text" class="form-control" id="judul" name="judul">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="penulis">Penulis:</label>
+                                                <input type="text" class="form-control" id="penulis" name="penulis">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="isi">Isi Berita</label>
+                                                <textarea class="form-control" id="isi" name="isi" rows="5"
+                                                    style="resize: none"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tanggal_publish">Tangga Publish:</label>
+                                                <input type="date" class="form-control" id="tanggal_publish"
+                                                    name="tanggal_publish">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-primary" id="simpanTambah">Tambah</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- Modal tambah berita End -->
+
+                        <!-- Modal Edit Berita -->
+                        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog"
+                            aria-labelledby="modalEditLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalEditLabel">Edit berita</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Form untuk menampilkan data berita pada modal -->
+                                        <form id="formEdit">
+                                            <input type="hidden" id="edit_berita_id" name="berita_id">
+                                            <div class="form-group">
+                                                <label for="edit_judul">Judul:</label>
+                                                <input type="text" class="form-control" id="edit_judul" name="judul">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_penulis">Penulis:</label>
+                                                <input type="text" class="form-control" id="edit_penulis"
+                                                    name="nama_penulis">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_isi">Isi:</label>
+                                                <textarea class="form-control" id="edit_isi" name="isi" rows="5"
+                                                    style="resize: none"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="edit_tanggal_publish">Tanggal Publish:</label>
+                                                <input type="date" class="form-control" id="edit_tanggal_publish"
+                                                    name="tanggal_publish">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="simpanEdit">Simpan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal Edit Berita End -->
+
                     </div>
-                    <!-- card end -->
+                    <!-- berita end -->
                 </div>
+                <!-- /.container-fluid -->
             </section>
+            <!-- /.content -->
         </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
+    <!-- ./wrapper -->
 
     <!-- js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -265,6 +262,120 @@ if (isset($_POST['posting'])) {
     <!-- jQuery -->
     <!-- Bootstrap 4 -->
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../plugins/jszip/jszip.min.js"></script>
+    <script src="../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/e91d75df7f.js" crossorigin="anonymous"></script>
+    <!-- Page specific script -->
+    <script>
+        $(document).ready(function () {
+            var table = $('#berita_table').DataTable({
+                "ajax": "../service/ajax/ajax-berita.php",
+                "columns": [{
+                    "data": "no"
+                },
+                {
+                    "data": "judul"
+                },
+                {
+                    "data": "penulis"
+                },
+                {
+                    "data": "isi"
+                },
+                {
+                    "data": "tanggal_publish"
+                },
+                {
+                    "data": "action",
+                    "orderable": true,
+                    "searchable": true
+                }
+                ],
+                "responsive": true
+            });
+
+            // Tambah berita
+            $('#simpanTambah').click(function () {
+                var data = $('#formTambah').serialize();
+                $.ajax({
+                    url: '../service/ajax/ajax-berita.php',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        $('#modalTambah').modal('hide');
+                        table.ajax.reload();
+                        $('#formTambah')[0].reset();
+                        alert(response);
+                    }
+                });
+            });
+
+            // Menampilkan modal Edit Berita
+            $('#berita_table').on('click', '.edit', function () {
+                let berita_id = $(this).data('berita_id');
+                $.ajax({
+                    url: '../service/ajax/ajax-berita.php?berita_id=' + berita_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#edit_berita_id').val(data.berita_id);
+                        $('#edit_judul').val(data.judul);
+                        $('#edit_penulis').val(data.penulis);
+                        $('#edit_isi').val(data.isi);
+                        $('#edit_tanggal_publish').val(data.tanggal_publish);
+                        $('#modalEdit').modal('show');
+                    }
+                });
+            });
+
+            // Simpan edit user
+            // $('#simpanEdit').click(function () {
+            //     var data = $('#formEdit').serialize();
+            //     $.ajax({
+            //         url: '../service/ajax/ajax-berita.php',
+            //         type: 'PUT',
+            //         data: data,
+            //         success: function (response) {
+            //             $('#modalEdit').modal('hide');
+            //             table.ajax.reload();
+            //             alert(response);
+            //         }
+            //     });
+            // });
+
+            // Delete Berita
+            // $('#berita_table').on('click', '.delete', function () {
+            //     var berita_id = $(this).data('berita_id');
+            //     if (confirm('Kamu yakin ingin menghapus berita ini?')) {
+            //         $.ajax({
+            //             url: '../service/ajax/ajax-berita.php',
+            //             type: 'DELETE',
+            //             data: {
+            //                 berita_id: berita_id
+            //             },
+            //             success: function (response) {
+            //                 table.ajax.reload();
+            //                 alert(response);
+            //             }
+            //         });
+            //     }
+            // });
+
+        });
+
+    </script>
 </body>
 
 </html>

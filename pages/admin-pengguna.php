@@ -1,8 +1,4 @@
 <?php
-
-include "../service/connection.php";
-include "../service/select.php";
-include "../service/update.php";
 session_start();
 
 // check login and role
@@ -108,23 +104,24 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
 
                             <!-- <button class="tambahPengguna btn btn-primary my-2">Tambah Pengguna</button> -->
                             <!-- <button type="button" class="edit btn btn-primary" data-user_id="' . $row['user_id'] . '" data-toggle="modal">Tambah</button> -->
-                            <table id="pengguna_table" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Username</th>
-                                        <th>Nama Lengkap</th>
-                                        <th>Email</th>
-                                        <th>Tanggal Lahir</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Role</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-
+                            <div class="table-responsive">
+                                <table id="pengguna_table" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Username</th>
+                                            <th>Nama Lengkap</th>
+                                            <th>Email</th>
+                                            <th>Tanggal Lahir</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Role</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- /.card-body -->
 
@@ -359,7 +356,8 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                     "orderable": true,
                     "searchable": true
                 }
-                ]
+                ],
+                "responsive": true
             });
 
             // Tambah pengguna
