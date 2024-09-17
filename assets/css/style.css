@@ -89,3 +89,10 @@ nav ul li a:hover {
   background-repeat: no-repeat;
   padding-top: 200px;
 }
+
+/* kontak */
+
+.kontak {
+  min-height: 1000px;
+  background-color: var(--primary);
+}

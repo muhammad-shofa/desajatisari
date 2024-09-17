@@ -291,7 +291,7 @@ $results_berita = $connected->query($sql_berita);
           <div class="container container-fluid d-flex justify-content-between flex-wrap">
             <?php if ($results_berita->num_rows > 0) { ?>
               <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
-                <div class="card m-2" style="width: 18rem">
+                <div class="card m-2" style="width: 18rem" data-aos="fade-up" data-aos-duration="600">
                   <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
                   <div class="card-body">
                     <h5 class="card-title">
@@ -323,34 +323,123 @@ $results_berita = $connected->query($sql_berita);
       <!-- container testimoni start -->
       <div class="container-xl px-2">
         <div class="p-5 mb-10">
-          <h2 class="fw-bold text-light text-center" data-aos="fade-up" data-aos-duration="500">
+          <h2 class="fw-bold text-light text-center">
             Apa Yang Orang - Orang Katakan tentang Desa Jatisari?
           </h2>
-          <!-- card berita start -->
-          <div class="container container-fluid d-flex justify-content-between flex-wrap">
-            <?php if ($results_berita->num_rows > 0) { ?>
-              <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
-                <div class="card m-2" style="width: 18rem">
-                  <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <a href="pages/berita.php" class="link-underline link-underline-opacity-0 text-dark">
-                        <?= $data_berita["judul"] ?>
-                      </a>
-                    </h5>
-                  </div>
+          <div class="card-testimoni">
+
+            <!-- carousel start -->
+            <div class="all-card-testimoni py-5">
+              <div class="splide mx-auto" data-aos=fade-up data-aos-duration=600>
+                <div class="splide__track rounded">
+                  <ul class="splide__list">
+                    <li class="splide__slide bg-light" style=width:150px>
+                      <div
+                        class="card-testimoni d-flex flex-wrap justify-content-center p-3 rounded border border-light border-2 gap-3">
+                        <img src="assets/img/default.png" alt class="img-fluid rounded-circle border border-3"
+                          width=200px />
+                        <div class="card-text-testimoni text-center">
+                          <h4>Fikra</h4>
+                          <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam expedita iste fuga quaerat
+                            commodi corporis eos maiores sunt ad possimus reiciendis, dolorem impedit officia minima
+                            laborum autem! Amet, accusantium hic?
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="splide__slide bg-light" style=width:150px>
+                      <div
+                        class="card-testimoni d-flex flex-wrap justify-content-center p-3 rounded border border-light border-2 gap-3">
+                        <img src="assets/img/default.png" alt class="img-fluid rounded-circle border border-3"
+                          width=200px />
+                        <div class="card-text-testimoni text-center">
+                          <h4>Fikri</h4>
+                          <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam expedita iste fuga quaerat
+                            commodi corporis eos maiores sunt ad possimus reiciendis, dolorem impedit officia minima
+                            laborum autem! Amet, accusantium hic?
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="splide__slide bg-light" style=width:150px>
+                      <div
+                        class="card-testimoni d-flex flex-wrap justify-content-center p-3 rounded border border-light border-2 gap-3">
+                        <img src="assets/img/default.png" alt class="img-fluid rounded-circle border border-3"
+                          width=200px />
+                        <div class="card-text-testimoni text-center">
+                          <h4>Fikru</h4>
+                          <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam expedita iste fuga quaerat
+                            commodi corporis eos maiores sunt ad possimus reiciendis, dolorem impedit officia minima
+                            laborum autem! Amet, accusantium hic?
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
-              <?php } ?>
-            <?php } ?>
+              </div>
+            </div>
+            <!-- carousel end -->
+
           </div>
-          <!-- card berita end -->
         </div>
       </div>
-      <!-- container testimoni end -->
+
+      <!-- waves -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#ffffff" fill-opacity="1"
+          d="M0,96L48,122.7C96,149,192,203,288,197.3C384,192,480,128,576,133.3C672,139,768,213,864,224C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+        </path>
+      </svg>
     </div>
-    <!-- testimoni end -->
+    <!-- container testimoni end -->
+
+    <div class="kontak">
+      <div class="container-xl px-2">
+        <div class="p-5 mb-10">
+          <h2 class="fw-bold text-center">
+            Kontak
+          </h2>
+        </div>
+        <div class="d-flex flex-wrap justify-content-evenly mb-5 gap-5">
+          <div class="form-kontak">
+            <form class="p-5 border border-3 border rounded">
+              <div class="mb-3">
+                <label for="nama" class="form-label">Nama</label>
+                <input type="text" class="form-control" id="nama" aria-describedby="nama"
+                  placeholder="Masukkan nama kamu">
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Masukkan email kamu">
+              </div>
+              <div class="mb-3">
+                <label for="pesan" class="form-label">Pesan</label>
+                <textarea class="form-control" placeholder="Tinggalkan pesan kamu di sini" id="pesan"
+                  style="width: 300px; height: 150px; resize: none"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary float-end">Kirim</button>
+            </form>
+          </div>
+
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126646.25766585385!2d112.630280370873!3d-7.275441714532518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbf8381ac47f%3A0x3027a76e352be40!2sSurabaya%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1726540573786!5m2!1sid!2sid"
+              width="400" height="350" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
   </div>
   <!-- main container end -->
+
+
 
   <!-- js -->
   <script src="./js/main.js"></script>
@@ -372,8 +461,6 @@ $results_berita = $connected->query($sql_berita);
         width: "65%"
       }).mount();
   </script>
-
-
 
 </body>
 

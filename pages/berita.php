@@ -49,16 +49,22 @@ $results_berita = $connected->query($sql_berita);
                         <div class="container container-fluid d-flex justify-content-between flex-wrap">
                             <?php if ($results_berita->num_rows > 0) { ?>
                                 <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
-                                    <div class="card m-2" style="width: 18rem">
-                                        <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <a href="pages/berita.php"
-                                                    class="link-underline link-underline-opacity-0 text-dark">
+                                    <div class="card m-2 " style="width: 18rem">
+                                        <a href="berita.php?" class="link-underline link-underline-opacity-0 text-dark">
+                                            <!-- <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" /> -->
+                                            <div class="card-body">
+                                                <h5 class="card-title">
                                                     <?= $data_berita["judul"] ?>
-                                                </a>
-                                            </h5>
-                                        </div>
+                                                </h5>
+                                                <p class="text-secondary">
+                                                    <?php
+                                                    $tanggal = $data_berita["tanggal_publish"];
+                                                    $tanggalFormatted = date("d/m/Y", strtotime($tanggal));
+                                                    echo $tanggalFormatted;
+                                                    ?>
+                                                </p>
+                                            </div>
+                                        </a>
                                     </div>
                                 <?php } ?>
                             <?php } ?>
