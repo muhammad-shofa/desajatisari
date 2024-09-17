@@ -185,7 +185,7 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                                             <div class="form-group">
                                                 <label for="edit_penulis">Penulis:</label>
                                                 <input type="text" class="form-control" id="edit_penulis"
-                                                    name="nama_penulis">
+                                                    name="penulis">
                                             </div>
                                             <div class="form-group">
                                                 <label for="edit_isi">Isi:</label>
@@ -340,38 +340,38 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                 });
             });
 
-            // Simpan edit user
-            // $('#simpanEdit').click(function () {
-            //     var data = $('#formEdit').serialize();
-            //     $.ajax({
-            //         url: '../service/ajax/ajax-berita.php',
-            //         type: 'PUT',
-            //         data: data,
-            //         success: function (response) {
-            //             $('#modalEdit').modal('hide');
-            //             table.ajax.reload();
-            //             alert(response);
-            //         }
-            //     });
-            // });
+            // Simpan Edit Berita
+            $('#simpanEdit').click(function () {
+                var data = $('#formEdit').serialize();
+                $.ajax({
+                    url: '../service/ajax/ajax-berita.php',
+                    type: 'PUT',
+                    data: data,
+                    success: function (response) {
+                        $('#modalEdit').modal('hide');
+                        table.ajax.reload();
+                        alert(response);
+                    }
+                });
+            });
 
             // Delete Berita
-            // $('#berita_table').on('click', '.delete', function () {
-            //     var berita_id = $(this).data('berita_id');
-            //     if (confirm('Kamu yakin ingin menghapus berita ini?')) {
-            //         $.ajax({
-            //             url: '../service/ajax/ajax-berita.php',
-            //             type: 'DELETE',
-            //             data: {
-            //                 berita_id: berita_id
-            //             },
-            //             success: function (response) {
-            //                 table.ajax.reload();
-            //                 alert(response);
-            //             }
-            //         });
-            //     }
-            // });
+            $('#berita_table').on('click', '.delete', function () {
+                var berita_id = $(this).data('berita_id');
+                if (confirm('Kamu yakin ingin menghapus berita ini?')) {
+                    $.ajax({
+                        url: '../service/ajax/ajax-berita.php',
+                        type: 'DELETE',
+                        data: {
+                            berita_id: berita_id
+                        },
+                        success: function (response) {
+                            table.ajax.reload();
+                            alert(response);
+                        }
+                    });
+                }
+            });
 
         });
 

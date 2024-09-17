@@ -42,8 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $isi = $_POST["isi"];
     $tanggal_publish = $_POST["tanggal_publish"];
 
-    // $hash_password = hash("sha256", $password);
-
     $stmt = $connected->prepare($insert->selectTable($table_name = "berita", $condition = "(judul, penulis, isi, tanggal_publish) VALUES (?, ?, ?, ?)"));
     $stmt->bind_param("ssss", $judul, $penulis, $isi, $tanggal_publish);
 
@@ -52,5 +50,39 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } else {
         echo "Gagal menambahkan berita: " . $stmt->error;
     }
+    $stmt->close();
+} else if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+    // Edit berita
+    parse_str(file_get_contents("php://input"), $data);
+    $berita_id = $data["berita_id"];
+    $judul = $data["judul"];
+    $penulis = $data["penulis"];
+    $isi = $data["isi"];
+    $tanggal_publish = $data["tanggal_publish"];
+
+    $stmt = $connected->prepare($update->selectTable($table_name = "berita", $condition = "judul = ?, penulis = ?, isi = ?, tanggal_publish = ? WHERE berita_id = ?"));
+    $stmt->bind_param("ssssi", $judul, $penulis, $isi, $tanggal_publish, $berita_id);
+
+    if ($stmt->execute()) {
+        echo "Berhasil mengedit berita";
+    } else {
+        echo "Gagal mengedit berita " . $stmt->error;
+    }
+
+    $stmt->close();
+} elseif ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+    // Delete berita
+    parse_str(file_get_contents("php://input"), $data);
+    $berita_id = $data["berita_id"];
+
+    $stmt = $connected->prepare($delete->select_table($table_name = "berita", $condition = "WHERE berita_id = ?"));
+    $stmt->bind_param("i", $berita_id);
+
+    if ($stmt->execute()) {
+        echo "Berhasil menghapus berita";
+    } else {
+        echo "Gagal menghapus berita: " . $stmt->error;
+    }
+
     $stmt->close();
 }
