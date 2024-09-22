@@ -10,7 +10,7 @@ $session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><im
 </div>';
 
 // get data berita
-$sql_berita = $select->selectTable($table_name = "berita", $fields = "*");
+$sql_berita = $select->selectTable($table_name = "berita", $fields = "*", $condition = "ORDER BY berita_id DESC LIMIT 3");
 $results_berita = $connected->query($sql_berita);
 
 ?>
@@ -290,17 +290,22 @@ $results_berita = $connected->query($sql_berita);
           <!-- card berita start -->
           <div class="container container-fluid d-flex justify-content-between flex-wrap">
             <?php if ($results_berita->num_rows > 0) { ?>
-              <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
-                <div class="card m-2" style="width: 18rem" data-aos="fade-up" data-aos-duration="600">
-                  <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <a href="pages/berita.php" class="link-underline link-underline-opacity-0 text-dark">
+              <?php while ($data_berita = $results_berita->fetch_assoc()) {
+                ?>
+                <a href="pages/baca.php?d=<?= $data_berita["uuid"] ?>"
+                  class="link-underline link-underline-opacity-0 text-dark">
+                  <div class="card m-2" style="width: 18rem" data-aos="fade-up" data-aos-duration="600">
+                    <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" />
+                    <div class="card-body">
+                      <h5 class="card-title">
                         <?= $data_berita["judul"] ?>
-                      </a>
-                    </h5>
+                      </h5>
+                      <p class="text-secondary"><?php
+                      $formatted_date = date("d/m/Y", strtotime($data_berita["tanggal_publish"]));
+                      echo $formatted_date ?></p>
+                    </div>
                   </div>
-                </div>
+                </a>
               <?php } ?>
             <?php } ?>
           </div>

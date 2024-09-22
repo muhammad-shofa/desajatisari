@@ -11,4 +11,3 @@ class select
 
 $select = new select();
 
-?>

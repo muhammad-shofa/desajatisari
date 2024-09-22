@@ -5,7 +5,8 @@ include "../service/select.php";
 session_start();
 
 // get data berita 
-$sql_berita = $select->selectTable($table_name = "berita", $fields = "*");
+// $sql_berita = $select->selectTable($table_name = "berita", $fields = "*");
+$sql_berita = $select->selectTable($table_name = "berita", $fields = "*", $condition = "ORDER BY berita_id DESC LIMIT 3");
 $results_berita = $connected->query($sql_berita);
 
 ?>
@@ -38,8 +39,8 @@ $results_berita = $connected->query($sql_berita);
         <!-- container start -->
         <div class="container-fluid">
             <!-- berita start -->
-            <div class="berita">
-                <div class="container-xl px-2">
+            <div class="berita pt-5">
+                <div class="container-xl px-5">
                     <!-- -->
                     <div class="p-5 mb-10">
                         <h2 class="line-in-top-start fw-bold" data-aos="fade-up" data-aos-duration="500">
@@ -48,24 +49,22 @@ $results_berita = $connected->query($sql_berita);
                         <!-- card berita start -->
                         <div class="container container-fluid d-flex justify-content-between flex-wrap">
                             <?php if ($results_berita->num_rows > 0) { ?>
-                                <?php while ($data_berita = $results_berita->fetch_assoc()) { ?>
-                                    <div class="card m-2 " style="width: 18rem">
-                                        <a href="berita.php?" class="link-underline link-underline-opacity-0 text-dark">
+                                <?php while ($data_berita = $results_berita->fetch_assoc()) {
+                                    ?>
+                                    <a href="baca.php?d=<?= $data_berita["uuid"] ?>"
+                                        class="link-underline link-underline-opacity-0 text-dark">
+                                        <div class="card m-2" style="width: 18rem" data-aos="fade-up" data-aos-duration="600">
                                             <!-- <img src="assets/img/sawah-1.jpg" class="card-img-top" alt="sawah" /> -->
                                             <div class="card-body">
                                                 <h5 class="card-title">
                                                     <?= $data_berita["judul"] ?>
                                                 </h5>
-                                                <p class="text-secondary">
-                                                    <?php
-                                                    $tanggal = $data_berita["tanggal_publish"];
-                                                    $tanggalFormatted = date("d/m/Y", strtotime($tanggal));
-                                                    echo $tanggalFormatted;
-                                                    ?>
-                                                </p>
+                                                <p class="text-secondary"><?php
+                                                $formatted_date = date("d/m/Y", strtotime($data_berita["tanggal_publish"]));
+                                                echo $formatted_date ?></p>
                                             </div>
-                                        </a>
-                                    </div>
+                                        </div>
+                                    </a>
                                 <?php } ?>
                             <?php } ?>
                         </div>
@@ -76,6 +75,19 @@ $results_berita = $connected->query($sql_berita);
             <!-- berita start -->
         </div>
     </div>
+
+    <!-- js -->
+    <script src="./js/main.js"></script>
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- aos -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
 </body>
 
 </html>

@@ -4,6 +4,7 @@ include "../select.php";
 include "../insert.php";
 include "../update.php";
 include "../delete.php";
+include "../uuid.php";
 session_start();
 
 
@@ -37,13 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // tambah berita
+    $uuid = $uuid->generateUUIDManual();
     $judul = $_POST["judul"];
     $penulis = $_POST["penulis"];
     $isi = $_POST["isi"];
     $tanggal_publish = $_POST["tanggal_publish"];
 
-    $stmt = $connected->prepare($insert->selectTable($table_name = "berita", $condition = "(judul, penulis, isi, tanggal_publish) VALUES (?, ?, ?, ?)"));
-    $stmt->bind_param("ssss", $judul, $penulis, $isi, $tanggal_publish);
+    $stmt = $connected->prepare($insert->selectTable($table_name = "berita", $condition = "(uuid, judul, penulis, isi, tanggal_publish) VALUES (?, ?, ?, ?, ?)"));
+    $stmt->bind_param("sssss", $uuid, $judul, $penulis, $isi, $tanggal_publish);
 
     if ($stmt->execute()) {
         echo "Berhasil menambahkan berita";
