@@ -10,7 +10,7 @@ $session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><im
 </div>';
 
 // get data berita
-$sql_berita = $select->selectTable($table_name = "berita", $fields = "*", $condition = "ORDER BY berita_id DESC LIMIT 3");
+$sql_berita = $select->selectTable($table_name = "berita", $fields = "*", $condition = "ORDER BY berita_id DESC LIMIT 6");
 $results_berita = $connected->query($sql_berita);
 
 ?>

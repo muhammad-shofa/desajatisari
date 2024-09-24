@@ -6,7 +6,6 @@ include "../update.php";
 include "../delete.php";
 session_start();
 
-
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // users
     if (isset($_GET["user_id"])) {
