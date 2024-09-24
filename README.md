@@ -3,4 +3,8 @@ Projek website desa ini memiliki 2 fitur utama, yaitu pengaduan dan berita, user
 
 Terdapat juga bagian dashboard admin untuk mengelola data-data pengguna, berita dan pengaduan.
 
-dibuat menggunakan bootstrap, php dan jQuery dengan database MySQL
+dibuat menggunakan bootstrap, php dan jQuery dengan database MySQL.
+
+------
+Projek ini masih dalam tahap pengembangan
+----
