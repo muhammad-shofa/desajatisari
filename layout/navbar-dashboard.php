@@ -12,8 +12,5 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="../pages/pengaduan.php" class="nav-link">Pengaduan</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="../index.php" class="nav-link">Kontak</a>
-        </li>
     </ul>
 </nav>

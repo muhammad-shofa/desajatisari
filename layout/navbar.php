@@ -27,9 +27,6 @@ $session_login = isset ($_SESSION['is_login']) ? '<a href="profile.php"><img cla
                 <li class="nav-item">
                     <a class="nav-link" href="../pages/pengaduan.php">Pengaduan</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Kontak</a>
-                </li>
             </ul>
             <div>
                 <?= $session_login ?>

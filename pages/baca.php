@@ -39,7 +39,6 @@ $session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><im
         <!-- nav end -->
         <!-- baca start -->
         <div class="baca">
-
             <?php
             // get data berita
             if (isset($_GET["d"])) {
@@ -52,40 +51,42 @@ $session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><im
                     <div class="container-xl px-2" style="padding: 130px 0px 130px 0px">
                         <div class="p-3 border border-2 rounded">
                             <h2 class="text-dark"><?= $data_baca_berita["judul"] ?></h2>
-                            <p><?= $data_baca_berita['tanggal_publish'] ?></p>
+                            <p><?php $formatted_date = date("d/m/Y", strtotime($data_baca_berita["tanggal_publish"]));
+                            echo $formatted_date ?>
+                            </p>
                             <p><b>DesaJatisari - </b><?= $data_baca_berita['isi'] ?></p>
                         </div>
                         <div class="p-3 my-3 border border-2 rounded">
                             <i class="fa-regular fa-comment-dots fs-3" id="toggleButton"></i>
                         </div>
-                        <div id="commentSection" class="commentSection p-3 border border-2 rounded" style="display: block">
+                        <div id="commentSection" class="commentSection p-3 border border-2 rounded" style="display: none">
                             <h2>Komentar</h2>
 
                             <div class="all-comments">
-                                <div class="your-comment border border-2 rounded p-3">
+                                <div class="your-comment border border-2 rounded p-3 my-2">
                                     <h4>Berikan Komentarmu</h4>
-                                    <form action="" method="post" id="formKomentar">
-                                        <div class="form-floating">
-                                            <input type="hidden" name="user_id" value="<?= $_SESSION["user_id"] ?>">
-                                            <input type="hidden" name="berita_id" value="<?= $data_baca_berita['berita_id'] ?>">
-                                            <textarea class="form-control" placeholder="Leave a comment here"
-                                                id="floatingTextarea2" name="isi_komentar"
-                                                style="height: 200px; resize: none;"></textarea>
-                                            <label for="floatingTextarea2">Tuis komentarmu di sini!</label>
-                                        </div>
-                                        <input type="button" class="btn text-light bg-primary mt-3" id="kirimKomentarBtn"
-                                            value="Kirim">
+                                    <?php if (isset($_SESSION['is_login'])) { ?>
+                                        <form action="" method="post" id="formKomentar">
+                                            <div class="form-floating">
+                                                <input type="hidden" name="user_id" value="<?= $_SESSION["user_id"] ?>">
+                                                <input type="hidden" name="berita_id" value="<?= $data_baca_berita['berita_id'] ?>">
+                                                <textarea class="form-control" placeholder="Leave a comment here"
+                                                    id="floatingTextarea2" name="isi_komentar"
+                                                    style="height: 200px; resize: none;"></textarea>
+                                                <label for="floatingTextarea2">Tuis komentarmu di sini!</label>
+                                            </div>
+                                            <input type="button" class="btn text-light bg-primary mt-3" id="kirimKomentarBtn"
+                                                value="Kirim">
 
-                                    </form>
+                                        </form>
+                                    <?php } else { ?>
+                                        <p class="text-success">Masuk terlebih dahulu untuk menulis komentar!</p>
+                                    <?php } ?>
                                 </div>
                                 <div class="other-comments border border-2 rounded p-3">
-                                    <h4>Komentar Orang lain</h4>
+                                    <h4>Komentar lain</h4>
                                     <div class="content-other-comments" id="contentOtherComments">
-                                        <!-- <php if ($data_baca_berita["komentar"] == null) { ?>
-                                            <p>Belum ada komentar lain</p>
-                                        <php } else { ?>
-                                            <p><= $data_baca_berita['komentar'] ?></p>
-                                        <php } ?> -->
+
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +173,6 @@ $session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><im
         // 
         // Tambah komentar
         $('#kirimKomentarBtn').click(function () {
-            // e.preventDefault(); // Mencegah reload halaman
             var data = $('#formKomentar').serialize();
             $.ajax({
                 url: '../service/ajax/ajax-baca.php',
@@ -183,7 +183,6 @@ $session_login = isset($_SESSION['is_login']) ? '<a href="pages/profile.php"><im
                     $('#formKomentar')[0].reset();
                     loadDataKomentar();
                 }, error: function (xhr, status, error) {
-                    // Tangani error AJAX
                     alert('Terjadi kesalahan: ' + error);
                 }
             });

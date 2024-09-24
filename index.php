@@ -59,9 +59,6 @@ $results_berita = $connected->query($sql_berita);
             <li class="nav-item">
               <a class="nav-link" href="pages/pengaduan.php">Pengaduan</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Kontak</a>
-            </li>
           </ul>
           <div>
             <?= $session_login ?>
@@ -402,6 +399,7 @@ $results_berita = $connected->query($sql_berita);
     </div>
     <!-- container testimoni end -->
 
+    <!-- kontak start -->
     <div class="kontak">
       <div class="container-xl px-2">
         <div class="p-5 mb-10">
@@ -439,8 +437,54 @@ $results_berita = $connected->query($sql_berita);
 
         </div>
       </div>
+      <!-- waves -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#273036" fill-opacity="1"
+          d="M0,128L34.3,112C68.6,96,137,64,206,58.7C274.3,53,343,75,411,117.3C480,160,549,224,617,224C685.7,224,754,160,823,149.3C891.4,139,960,181,1029,208C1097.1,235,1166,245,1234,234.7C1302.9,224,1371,192,1406,176L1440,160L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z">
+        </path>
+      </svg>
     </div>
+    <!-- kontak end -->
 
+    <!-- footer start -->
+    <footer>
+      <div class="container-xl p-2 d-flex flex-wrap justify-content-evenly text-light">
+        <div class="footer-about" style="max-width: 350px;">
+          <h3>Profile Desa</h3>
+          <p>Desa Jatisari adalah desa yang terletak di Kecamatan Senori Jawa Timur. Desa Jatisari di kenal karena
+            banyaknya pondok pesantren dan sekolah yang berdiri, oleh karena inilah banyak pendatang dari desa,
+            kecamatan atau bahkan kebupaten lain untuk menempa ilmu di Desa Jatisari. </p>
+        </div>
+        <div class="footer-navigation" style="max-width: 300px;">
+          <h3>Navigation</h3>
+          <ul class="text-decoration-none">
+            <li>
+              <a href="index.php" class="text-light link-underline link-underline-opacity-0">Beranda</a>
+            </li>
+            <li>
+              <a href="pages/berita.php" class="text-light link-underline link-underline-opacity-0">Berita</a>
+            </li>
+            <li>
+              <a href="pages/pengaduan.php" class="text-light link-underline link-underline-opacity-0">Pengaduan</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h3>Kontak</h3>
+          <ul class="text-decoration-none">
+            <li>+62 88647735565
+            </li>
+            <li>
+              desajatisari@gmail.com
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <div class="copyright">
+      <p>Copyright Desa Jatisari 2024</p>
+    </div>
+    <!-- footer end -->
   </div>
   <!-- main container end -->
 

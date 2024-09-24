@@ -93,6 +93,20 @@ nav ul li a:hover {
 /* kontak */
 
 .kontak {
-  min-height: 1000px;
+  min-height: 700px;
   background-color: var(--primary);
+}
+
+/* footer */
+
+footer {
+  min-height: 280px;
+  background-color: #273036;
+}
+
+.copyright {
+  text-align: center;
+  padding: 5px 0px 5px 0px;
+  color: #ffffff;
+  background-color: #273036;
 }

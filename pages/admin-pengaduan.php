@@ -10,6 +10,13 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
     header("location: ../index.php");
     exit;
 }
+
+$sql_for_button = $connected->query($select->selectTable($table_name = "pengaduan", $fields = "*", $condition = ""));
+$data_pengaduan = [];
+if ($sql_for_button) {
+    $data_pengaduan = $sql_for_button->fetch_assoc();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -164,8 +171,9 @@ if ($_SESSION["is_login"] == false && $_SESSION["role"] != 'Admin') {
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="tandaiDibaca">Tandai Sudah
-                                            Dibaca</button>
+                                        <button id="tandaiDibaca" class="btn btn-primary">
+                                            Ganti status dibaca
+                                        </button>
                                     </div>
                                 </div>
                             </div>
